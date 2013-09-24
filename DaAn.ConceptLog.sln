@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaAn.ConceptLog", "DaAn.ConceptLog\DaAn.ConceptLog.csproj", "{62894D1D-2544-46C7-A157-5D469668D512}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaAn.ConceptLog.MVP", "DaAn.ConceptLog.MVP\DaAn.ConceptLog.MVP.csproj", "{16D6629A-FC31-4DB5-BD62-4762EF40AD3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaAn.ConceptLog.Model", "DaAn.ConceptLog.Model\DaAn.ConceptLog.Model.csproj", "{C1D72A37-660D-434A-A9C3-C5F12B36A096}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62894D1D-2544-46C7-A157-5D469668D512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62894D1D-2544-46C7-A157-5D469668D512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62894D1D-2544-46C7-A157-5D469668D512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62894D1D-2544-46C7-A157-5D469668D512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16D6629A-FC31-4DB5-BD62-4762EF40AD3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D6629A-FC31-4DB5-BD62-4762EF40AD3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D6629A-FC31-4DB5-BD62-4762EF40AD3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D6629A-FC31-4DB5-BD62-4762EF40AD3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D72A37-660D-434A-A9C3-C5F12B36A096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D72A37-660D-434A-A9C3-C5F12B36A096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D72A37-660D-434A-A9C3-C5F12B36A096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D72A37-660D-434A-A9C3-C5F12B36A096}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
