@@ -12,7 +12,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class MainPresenter
     {
-        private CommitService commitService;
+        private ProjectService projectService;
         private ProjectDetailsService projectDetailsService;
 
         private IMainView mainView;
@@ -36,7 +36,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.editedConcepts = new List<Concept>();
             this.deletedConcepts = new List<Concept>();
 
-            this.commitService = ObjectFactory.Instance.GetCommitService();
+            this.projectService = ObjectFactory.Instance.GetProjectService();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
         }
 
@@ -79,8 +79,9 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void Commit()
         {
-            var description = "Test";
-            this.projectDetails.CommitId = this.commitService.Commit(this.path, this.usreId, description, this.projectDetails.CommitId, this.addedConcepts, this.editedConcepts, this.deletedConcepts);
+            var commitPresenter = MVPSetting.Factory.GetCommitPresenter();
+
+            commitPresenter.Show();
         }
     }
 }

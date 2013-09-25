@@ -87,17 +87,17 @@ namespace DaAn.ConceptLog.Model
 
         //-------------------------------------------------
 
-        private CommitService commitService;
-        public CommitService GetCommitService()
+        private ProjectService projectService;
+        public ProjectService GetProjectService()
         {
-            if (this.commitService == null)
+            if (this.projectService == null)
             {
-                this.commitService = new CommitService(this.GetCommitRepository(),
+                this.projectService = new ProjectService(this.GetCommitRepository(),
                     this.GetSnapshotRepository(),
                     this.GetBlobRepository());
             }
 
-            return this.commitService;
+            return this.projectService;
         }
 
         private ProjectDetailsService projectDetailsService;

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace DaAn.ConceptLog.Model.Test.Services
 {
     [TestClass]
-    public class CommitServiceTest
+    public class ProjectServiceTest
     {
         [TestMethod]
         public void TestCommit()
         {
-            var service = ObjectFactory.Instance.GetCommitService();
+            var service = ObjectFactory.Instance.GetProjectService();
 
             service.Commit("test", Guid.NewGuid(), "Testtttt", "1a5a2297-63ed-4d51-90fa-09236f62ca36",
                 new List<Concept>(),

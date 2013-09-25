@@ -1,4 +1,5 @@
-﻿using DaAn.ConceptLog.MVP.Presenters;
+﻿using DaAn.ConceptLog.MVP;
+using DaAn.ConceptLog.MVP.Presenters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace DaAn.ConceptLog
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            MVPSetting.Factory = new WinFormsMVPFactory();
 
             MainForm form = new MainForm();
             MainPresenter presenter = new MainPresenter(form);
