@@ -10,7 +10,8 @@ namespace DaAn.ConceptLog.Model.Entities
     {
         public string Path { get; set; }
         public ProjectDetails Details { get; set; }
-        public List<Branch> Braches { get; set; }
         public List<Commit> Commits { get; set; }
+        public List<Branch> Braches { get; set; }
+        public List<User> Users { get; set; }
     }
 }

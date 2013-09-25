@@ -15,6 +15,8 @@ namespace DaAn.ConceptLog.Model.Services
         {
             var project = new Project();
 
+            project.Path = path;
+
             var details = File.ReadAllText(path + "Details.clpd");
             if (!string.IsNullOrWhiteSpace(details))
             {
@@ -33,6 +35,11 @@ namespace DaAn.ConceptLog.Model.Services
                 project.Commits = JsonConvert.DeserializeObject<List<Commit>>(commits);
             }
 
+            var users = File.ReadAllText(path + "Users.clc");
+            if (!string.IsNullOrWhiteSpace(commits))
+            {
+                project.Users = JsonConvert.DeserializeObject<List<User>>(users);
+            }
 
             return project;
         }
