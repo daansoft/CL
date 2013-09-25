@@ -29,15 +29,28 @@
         private void InitializeComponent()
         {
             this.mainTools = new System.Windows.Forms.ToolStrip();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openProjectMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.branchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.swichToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commitMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.showLogMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.showChangesMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.newProjectMI = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTools.SuspendLayout();
             this.mainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTools
@@ -50,10 +63,17 @@
             this.mainTools.TabIndex = 0;
             this.mainTools.Text = "mainTools";
             // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
             // mainMenu
             // 
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.projectToolStripMenuItem});
+            this.projectToolStripMenuItem,
+            this.branchToolStripMenuItem,
+            this.commitToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(910, 24);
@@ -63,26 +83,28 @@
             // projectToolStripMenuItem
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openProject,
-            this.saveToolStripMenuItem,
+            this.newProjectMI,
+            this.openProjectMI,
+            this.saveProjectMI,
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "Project";
             // 
-            // openProject
+            // openProjectMI
             // 
-            this.openProject.Name = "openProject";
-            this.openProject.Size = new System.Drawing.Size(152, 22);
-            this.openProject.Text = "&Open";
-            this.openProject.Click += new System.EventHandler(this.openProject_Click);
+            this.openProjectMI.Name = "openProjectMI";
+            this.openProjectMI.Size = new System.Drawing.Size(152, 22);
+            this.openProjectMI.Text = "&Open";
+            this.openProjectMI.Click += new System.EventHandler(this.openProjectMI_Click);
             // 
-            // saveToolStripMenuItem
+            // saveProjectMI
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveProjectMI.Name = "saveProjectMI";
+            this.saveProjectMI.Size = new System.Drawing.Size(152, 22);
+            this.saveProjectMI.Text = "&Save";
+            this.saveProjectMI.Click += new System.EventHandler(this.saveProjectMI_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -95,16 +117,102 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
-            // toolStripComboBox1
+            // branchToolStripMenuItem
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.branchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.swichToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.addToolStripMenuItem});
+            this.branchToolStripMenuItem.Name = "branchToolStripMenuItem";
+            this.branchToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.branchToolStripMenuItem.Text = "Branch";
+            // 
+            // swichToolStripMenuItem
+            // 
+            this.swichToolStripMenuItem.Name = "swichToolStripMenuItem";
+            this.swichToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.swichToolStripMenuItem.Text = "&Swich";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 6);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.addToolStripMenuItem.Text = "&Add";
+            // 
+            // commitToolStripMenuItem
+            // 
+            this.commitToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.commitMI,
+            this.toolStripMenuItem3,
+            this.showLogMI,
+            this.showChangesMI});
+            this.commitToolStripMenuItem.Name = "commitToolStripMenuItem";
+            this.commitToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.commitToolStripMenuItem.Text = "Commit";
+            // 
+            // commitMI
+            // 
+            this.commitMI.Name = "commitMI";
+            this.commitMI.Size = new System.Drawing.Size(152, 22);
+            this.commitMI.Text = "&Commit";
+            this.commitMI.Click += new System.EventHandler(this.commitMI_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(147, 6);
+            // 
+            // showLogMI
+            // 
+            this.showLogMI.Name = "showLogMI";
+            this.showLogMI.Size = new System.Drawing.Size(150, 22);
+            this.showLogMI.Text = "Show &log";
+            // 
+            // showChangesMI
+            // 
+            this.showChangesMI.Name = "showChangesMI";
+            this.showChangesMI.Size = new System.Drawing.Size(150, 22);
+            this.showChangesMI.Text = "Show changes";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 49);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(910, 505);
+            this.dataGridView1.TabIndex = 2;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 532);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(910, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // newProjectMI
+            // 
+            this.newProjectMI.Name = "newProjectMI";
+            this.newProjectMI.Size = new System.Drawing.Size(152, 22);
+            this.newProjectMI.Text = "&New";
+            this.newProjectMI.Click += new System.EventHandler(this.newProjectMI_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(910, 554);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.mainTools);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
@@ -114,6 +222,7 @@
             this.mainTools.PerformLayout();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,11 +233,23 @@
         private System.Windows.Forms.ToolStrip mainTools;
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openProject;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openProjectMI;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectMI;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripMenuItem commitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem commitMI;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem showLogMI;
+        private System.Windows.Forms.ToolStripMenuItem showChangesMI;
+        private System.Windows.Forms.ToolStripMenuItem branchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem swichToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripMenuItem newProjectMI;
     }
 }
 

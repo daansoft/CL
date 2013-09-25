@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Entities
 {
-    public class Blob
+    public class Snapshot
     {
         public string Id { get; set; }
-        public string Content { get; set; }
+        public List<BlobDetails> BlobsDetails { get; set; }
+
+        public Snapshot()
+        {
+            this.BlobsDetails = new List<BlobDetails>();
+        }
     }
 }

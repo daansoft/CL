@@ -50,8 +50,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ProjectServiceTest.cs" />
+    <Compile Include="Services\CommitServiceTest.cs" />
+    <Compile Include="Services\ProjectDetailsServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CommitRepositoryTest.cs" />
+    <Compile Include="Repositories\BranchRepositoryTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DaAn.ConceptLog.Model\DaAn.ConceptLog.Model.csproj">
+      <Project>{c1d72a37-660d-434a-a9c3-c5f12b36a096}</Project>
+      <Name>DaAn.ConceptLog.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

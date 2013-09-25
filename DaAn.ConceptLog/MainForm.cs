@@ -24,13 +24,33 @@ namespace DaAn.ConceptLog
 
         public void SetConcepts(List<Concept> concepts)
         {
-            throw new NotImplementedException();
         }
 
-        private void openProject_Click(object sender, EventArgs e)
+        private void openProjectMI_Click(object sender, EventArgs e)
         {
             var path = "Test";
             this.MainPresenter.OpenProject(path);
+        }
+
+        private void saveProjectMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.SaveProject();
+        }
+
+        private void newProjectMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.NewProject("Test", "Project", "Project");
+        }
+
+
+        public void SendMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
+
+        private void commitMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.Commit();
         }
     }
 }

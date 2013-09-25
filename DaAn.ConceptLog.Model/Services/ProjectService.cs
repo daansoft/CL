@@ -13,52 +13,37 @@ namespace DaAn.ConceptLog.Model.Services
     public class ProjectService
     {
         private ProjectDetailsRepository projectDetailsRepository;
+        private BranchRepository branchRepository;
+        private CommitRepository commitRepository;
+        private UserRepository userRepository;
+
+        public ProjectService(ProjectDetailsRepository projectDetailsRepository,
+            BranchRepository branchRepository,
+            CommitRepository commitRepository,
+            UserRepository userRepository)
+        {
+            this.projectDetailsRepository = projectDetailsRepository;
+            this.branchRepository = branchRepository;
+            this.commitRepository = commitRepository;
+            this.userRepository = userRepository;
+        }
 
         public void Write(Project project)
         {
             this.projectDetailsRepository.Save(project.Path, project.Details);
-
-            if (project.Braches != null)
-            {
-                File.WriteAllText(project.Path + "Branches.clb", JsonConvert.SerializeObject(project.Braches));
-            }
-
-            if (project.Commits != null)
-            {
-                File.WriteAllText(project.Path + "Commits.clc", JsonConvert.SerializeObject(project.Commits));
-            }
-
-            if (project.Users != null)
-            {
-                File.WriteAllText(project.Path + "Users.clc", JsonConvert.SerializeObject(project.Users));
-            }
+            this.branchRepository.Save(project.Path, project.Braches);
+            this.commitRepository.Save(project.Path, project.Commits);
+            this.userRepository.Save(project.Path, project.Users);
         }
 
         public Project Read(string path)
         {
             var project = new Project();
-
             project.Path = path;
-
             project.Details = this.projectDetailsRepository.Read(path);
-
-            var branches = File.ReadAllText(path + "Branches.clb");
-            if (!string.IsNullOrWhiteSpace(branches))
-            {
-                project.Braches = JsonConvert.DeserializeObject<List<Branch>>(branches);
-            }
-
-            var commits = File.ReadAllText(path + "Commits.clc");
-            if (!string.IsNullOrWhiteSpace(commits))
-            {
-                project.Commits = JsonConvert.DeserializeObject<List<Commit>>(commits);
-            }
-
-            var users = File.ReadAllText(path + "Users.clc");
-            if (!string.IsNullOrWhiteSpace(commits))
-            {
-                project.Users = JsonConvert.DeserializeObject<List<User>>(users);
-            }
+            project.Braches = this.branchRepository.Read(path);
+            project.Commits = this.commitRepository.FindAll(path);
+            project.Users = this.userRepository.Read(path);
 
             return project;
         }

@@ -46,16 +46,27 @@
     <Compile Include="Entities\Branch.cs" />
     <Compile Include="Entities\Commit.cs" />
     <Compile Include="Entities\Concept.cs" />
+    <Compile Include="Entities\BlobDetails.cs" />
+    <Compile Include="Entities\Snapshot.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Project.cs" />
     <Compile Include="Entities\ProjectDetails.cs" />
+    <Compile Include="ObjectFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Repositories\ConceptRepository.cs" />
+    <Compile Include="Repositories\BranchRepository.cs" />
+    <Compile Include="Repositories\CommitRepository.cs" />
+    <Compile Include="Repositories\BlobRepository.cs" />
+    <Compile Include="Repositories\SnapshotRepository.cs" />
+    <Compile Include="Repositories\RepositorySettings.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ProjectDetailsRepository.cs" />
     <Compile Include="Services\ConceptService.cs" />
-    <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\CommitService.cs" />
+    <Compile Include="Services\ProjectDetailsService.cs" />
+    <Compile Include="Utils\ProjectTools.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

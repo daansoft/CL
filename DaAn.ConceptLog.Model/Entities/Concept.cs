@@ -9,13 +9,11 @@ namespace DaAn.ConceptLog.Model.Entities
     public class Concept
     {
         public Guid Id { get; set; }
-        public int Number { get; set; }
+        public long Number { get; set; }
         public string Description { get; set; }
-        public bool Deleted { get; set; }
-        public Guid Creator { get; set; }
+        public Guid CreatorId { get; set; }
 
         public List<Guid> RelatedConceptIds;
-
         public List<Guid> UserIds;
     }
 }

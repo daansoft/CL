@@ -11,23 +11,21 @@ namespace DaAn.ConceptLog.Model.Repositories
 {
     public class ProjectDetailsRepository
     {
+        private static readonly string ProjectDetailsFile = "project_details.clpd";
+
         public void Save(string path, ProjectDetails details)
         {
-            if (details != null)
-            {
-                File.WriteAllText(path + "Details.clpd", JsonConvert.SerializeObject(details));
-            }
+            File.WriteAllText(Path.Combine(path, ProjectDetailsFile), JsonConvert.SerializeObject(details));
         }
 
         public ProjectDetails Read(string path)
         {
-            var details = File.ReadAllText(path + "Details.clpd");
-            if (!string.IsNullOrWhiteSpace(details))
-            {
-                return JsonConvert.DeserializeObject<ProjectDetails>(details);
-            }
+            return JsonConvert.DeserializeObject<ProjectDetails>(File.ReadAllText(Path.Combine(path, ProjectDetailsFile)));
+        }
 
-            return new ProjectDetails();
+        public bool Exists(string path)
+        {
+            return File.Exists(Path.Combine(path, ProjectDetailsFile));
         }
     }
 }

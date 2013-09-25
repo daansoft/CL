@@ -12,6 +12,7 @@ namespace DaAn.ConceptLog.Model.Entities
         public string Description { get; set; }
         public Guid UserId { get; set; }
         public string ParentId { get; set; }
+        public string SnapshotId { get; set; }
 
 
     }

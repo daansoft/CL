@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Entities
 {
-    public class Blob
+    public class BlobDetails
     {
         public string Id { get; set; }
-        public string Content { get; set; }
+        public Guid ConceptId { get; set; }
     }
 }
