@@ -1,4 +1,5 @@
 ﻿using DaAn.ConceptLog.Model.Entities;
+using DaAn.ConceptLog.Model.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,11 @@ namespace DaAn.ConceptLog.Model.Services
 {
     public class ProjectService
     {
+        private ProjectDetailsRepository projectDetailsRepository;
+
         public void Write(Project project)
         {
-            if (project.Details != null)
-            {
-                File.WriteAllText(project.Path + "Details.clpd", JsonConvert.SerializeObject(project.Details));
-            }
+            this.projectDetailsRepository.Save(project.Path, project.Details);
 
             if (project.Braches != null)
             {
@@ -40,11 +40,7 @@ namespace DaAn.ConceptLog.Model.Services
 
             project.Path = path;
 
-            var details = File.ReadAllText(path + "Details.clpd");
-            if (!string.IsNullOrWhiteSpace(details))
-            {
-                project.Details = JsonConvert.DeserializeObject<ProjectDetails>(details);
-            }
+            project.Details = this.projectDetailsRepository.Read(path);
 
             var branches = File.ReadAllText(path + "Branches.clb");
             if (!string.IsNullOrWhiteSpace(branches))

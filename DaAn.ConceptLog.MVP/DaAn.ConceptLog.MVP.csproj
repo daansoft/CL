@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Presenters\ConceptListPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IConceptListView.cs" />
     <Compile Include="Views\IMainView.cs" />
   </ItemGroup>
   <ItemGroup>

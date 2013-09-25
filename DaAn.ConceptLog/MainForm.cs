@@ -26,5 +26,11 @@ namespace DaAn.ConceptLog
         {
             throw new NotImplementedException();
         }
+
+        private void openProject_Click(object sender, EventArgs e)
+        {
+            var path = "Test";
+            this.MainPresenter.OpenProject(path);
+        }
     }
 }
