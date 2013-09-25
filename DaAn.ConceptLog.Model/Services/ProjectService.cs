@@ -11,6 +11,29 @@ namespace DaAn.ConceptLog.Model.Services
 {
     public class ProjectService
     {
+        public void Write(Project project)
+        {
+            if (project.Details != null)
+            {
+                File.WriteAllText(project.Path + "Details.clpd", JsonConvert.SerializeObject(project.Details));
+            }
+
+            if (project.Braches != null)
+            {
+                File.WriteAllText(project.Path + "Branches.clb", JsonConvert.SerializeObject(project.Braches));
+            }
+
+            if (project.Commits != null)
+            {
+                File.WriteAllText(project.Path + "Commits.clc", JsonConvert.SerializeObject(project.Commits));
+            }
+
+            if (project.Users != null)
+            {
+                File.WriteAllText(project.Path + "Users.clc", JsonConvert.SerializeObject(project.Users));
+            }
+        }
+
         public Project Read(string path)
         {
             var project = new Project();
