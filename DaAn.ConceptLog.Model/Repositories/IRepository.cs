@@ -7,16 +7,7 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Repositories
 {
-    public class ConceptRepository
+    public interface IRepository<ET, IDT> where ET : IEntity<IDT>
     {
-        public Concept Read(Guid id)
-        {
-            return new Concept();
-        }
-
-        /*public List<Concept> FindAll()
-        {
-
-        }*/
     }
 }

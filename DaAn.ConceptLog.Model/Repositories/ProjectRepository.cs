@@ -1,22 +1,16 @@
 ﻿using DaAn.ConceptLog.Model.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Repositories
 {
-    public class ConceptRepository
+    public class ProjectRepository
     {
-        public Concept Read(Guid id)
-        {
-            return new Concept();
-        }
-
-        /*public List<Concept> FindAll()
-        {
-
-        }*/
+        
     }
 }

@@ -8,14 +8,14 @@ namespace DaAn.ConceptLog.Model.Entities
 {
     public class User
     {
-        Guid Id { get; set; }
-        string Login { get; set; }
-        string Password { get; set; }
-        string EMail { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        string Telephone { get; set; }
-        string Info { get; set; }
-        byte[] Image { get; set; }
+        public Guid Id { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string EMail { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Telephone { get; set; }
+        public string Info { get; set; }
+        public byte[] Image { get; set; }
     }
 }
