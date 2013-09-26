@@ -22,11 +22,9 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private ProjectDetails projectDetails;
 
-        private List<Concept> addedConcepts;
-        private List<Concept> editedConcepts;
-        private List<Concept> deletedConcepts;
+        private List<Delta> deltas;
 
-        public CommitPresenter(ICommitView mainView, string path, Guid userId, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
+        public CommitPresenter(ICommitView mainView, string path, Guid userId, ProjectDetails projectDetails, List<Delta> deltas)
         {
             mainView.CommitPresenter = this;
 
@@ -36,9 +34,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.userId = userId;
             this.projectDetails = projectDetails;
 
-            this.addedConcepts = addedConcepts;
-            this.editedConcepts = editedConcepts;
-            this.deletedConcepts = deletedConcepts;
+            this.deltas = deltas;
 
             this.conceptService = ObjectFactory.Instance.GetConceptService();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
@@ -47,7 +43,9 @@ namespace DaAn.ConceptLog.MVP.Presenters
         public void Commit()
         {
             var description = this.commitView.GetCommitMessage();
-            this.conceptService.Commit(this.path, this.userId, description, this.projectDetails, this.addedConcepts, this.editedConcepts, this.deletedConcepts);
+            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName);
+
+            this.conceptService.Commit(this.path, this.userId, description, this.projectDetails, this.deltas);
 
             this.commitView.CloseView();
 

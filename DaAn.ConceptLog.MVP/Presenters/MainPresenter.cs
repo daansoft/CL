@@ -57,17 +57,17 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             this.projectDetails = this.projectDetailsService.Read(path);
 
+            this.deltas.Clear();
+
             this.path = path;
             this.RefreshData();
         }
 
         private void RefreshData()
         {
-            var concepts = new List<Concept>();
+            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName);
 
-            concepts.AddRange(this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName));
-
-            this.mainView.SetConcepts(this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName));
+            this.mainView.SetConcepts(this.conceptService.PrepareConcepts(concepts, this.deltas));
         }
 
         public void SaveProject()
@@ -107,9 +107,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
             var commitPresenter = MVPSetting.PresenterFactory.GetCommitPresenter(this.path,
                 this.userId,
                 this.projectDetails,
-                this.addedConcepts,
-                this.editedConcepts,
-                this.deletedConcepts);
+                this.deltas);
 
             commitPresenter.Show();
 
@@ -118,8 +116,30 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddNewConcept()
         {
-            var conceptPresenter = MVPSetting.PresenterFactory.GetConceptPresenter(null);
-            conceptPresenter.Show();
+            /*var conceptPresenter = MVPSetting.PresenterFactory.GetConceptPresenter(null);
+            conceptPresenter.Show();*/
+
+            var concept = new Concept()
+            {
+                Description = "Test delty",
+                Id = ProjectTools.NewId()
+            };
+
+            this.deltas.Add(new Delta()
+            {
+                ObjectId = concept.Id,
+                Key = DeltaKey.AddConcept,
+                Value = concept
+            });
+            
+            this.deltas.Add(new Delta()
+            {
+                ObjectId = "a970d11e-c44c-48d8-bc76-1ddf1c64b1bb",
+                Key = DeltaKey.RemoveConcept,
+                Value = null
+            });
+
+            this.RefreshData();
         }
     }
 }

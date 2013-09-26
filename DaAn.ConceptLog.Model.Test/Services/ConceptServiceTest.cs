@@ -13,7 +13,7 @@ namespace DaAn.ConceptLog.Model.Test.Services
         {
             var service = ObjectFactory.Instance.GetConceptService();
 
-            service.Commit("test", Guid.NewGuid(), "Testtttt", new ProjectDetails(),
+            /*service.Commit("test", Guid.NewGuid(), "Testtttt", new ProjectDetails(),
                 new List<Concept>() { 
                     new Concept() { 
                         Id = "6648eccc-e586-4397-8ea2-7260f6b05199",
@@ -21,7 +21,7 @@ namespace DaAn.ConceptLog.Model.Test.Services
                     } 
                 },
                 new List<Concept>(),
-                new List<Concept>());
+                new List<Concept>());*/
         }
         [TestMethod]
         public void TestFindByCommitId()

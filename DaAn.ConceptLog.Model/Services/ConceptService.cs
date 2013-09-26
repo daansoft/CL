@@ -50,7 +50,7 @@ namespace DaAn.ConceptLog.Model.Services
 
             foreach (var blobDetails in commit.BlobsDetails)
             {
-                if (blobDetails.Type == 1)
+                if (blobDetails.Type == BlobDetailsType.Concept)
                 {
                     var blob = this.blobRepository.Read(path, blobDetails.BlobId);
 
@@ -59,19 +59,26 @@ namespace DaAn.ConceptLog.Model.Services
                         continue;
                     }
 
-                    result.Add(JsonConvert.DeserializeObject<Concept>(blob.Content));
+                    var concept = JsonConvert.DeserializeObject<Concept>(blob.Content);
+                    concept.Action = CommitAction.NoChange;
+
+                    result.Add(concept);
                 }
             }
 
             return result;
         }
 
-        public string Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Concept> addedObjects, List<Concept> editedObjects, List<Concept> deletedObjects)
+        public string Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Delta> deltas)
         {
+            var concepts = new List<Concept>();
             Commit previousCommit = null;
             if (projectDetails.PreviuosCommitId != null)
             {
                 previousCommit = this.commitRepository.Read(path, projectDetails.PreviuosCommitId);
+
+                //TODO spraedzić czy pobierać po branch
+                concepts = this.FindByCommitId(path, projectDetails.PreviuosCommitId);
             }
 
             var newCommit = new Commit()
@@ -84,39 +91,48 @@ namespace DaAn.ConceptLog.Model.Services
 
             var newBlobs = new List<Blob>();
 
-            if (previousCommit != null)
+            concepts = this.PrepareConcepts(concepts, deltas);
+
+            foreach (var concept in concepts)
             {
-                newCommit.BlobsDetails = previousCommit.BlobsDetails.Where(r => !deletedObjects.Any(c => c.Id == r.ObjectId)).ToList();
-            }
-
-            foreach (var obj in addedObjects)
-            {
-                var blob = ConvertConceptToBlob(obj);
-
-                newBlobs.Add(blob);
-
-                newCommit.BlobsDetails.Add(new BlobDetails()
+                BlobDetails blobDetails = null;
+                if (previousCommit != null)
                 {
-                    BlobId = blob.Id,
-                    ObjectId = obj.Id,
-                    Type = 1,
-                    Action = 1 // new
-                });
+                    blobDetails = previousCommit.BlobsDetails.SingleOrDefault(r => r.ObjectId == concept.Id);
+                }
+
+                switch (concept.Action)
+                {
+                    case CommitAction.NoChange:
+                        newCommit.BlobsDetails.Add(blobDetails);
+                        break;
+                    case CommitAction.Create:
+                        var blob = ConvertConceptToBlob(concept);
+
+                        newBlobs.Add(blob);
+
+                        newCommit.BlobsDetails.Add(new BlobDetails()
+                        {
+                            BlobId = blob.Id,
+                            ObjectId = concept.Id,
+                            Type = BlobDetailsType.Concept
+                        });
+                        break;
+                    case CommitAction.Delete:
+                        // don't add blobDetails
+                        break;
+                    case CommitAction.Update:
+                        blob = ConvertConceptToBlob(concept);
+
+                        newBlobs.Add(blob);
+
+                        blobDetails.BlobId = blob.Id;
+
+                        newCommit.BlobsDetails.Add(blobDetails);
+                        break;
+                }
+
             }
-
-            foreach (var obj in editedObjects)
-            {
-                var blob = ConvertConceptToBlob(obj);
-
-                newBlobs.Add(blob);
-
-                var blobDetails = newCommit.BlobsDetails.SingleOrDefault(r => r.ObjectId == obj.Id);
-
-                blobDetails.BlobId = blob.Id;
-                blobDetails.Action = 2; // update
-            }
-
-
 
             var branch = this.branchRepository.Read(path, projectDetails.BranchName);
             branch.CommitId = newCommit.Id;
@@ -128,9 +144,7 @@ namespace DaAn.ConceptLog.Model.Services
             this.commitRepository.Save(path, newCommit);
             this.blobRepository.Save(path, newBlobs);
 
-            addedObjects.Clear();
-            editedObjects.Clear();
-            deletedObjects.Clear();
+            deltas.Clear();
 
             return newCommit.Id;
         }
@@ -141,7 +155,69 @@ namespace DaAn.ConceptLog.Model.Services
             {
                 Id = ProjectTools.NewId(),
                 Content = JsonConvert.SerializeObject(concept)
-            }; ;
+            };
+        }
+
+        public List<Concept> PrepareConcepts(List<Concept> concepts, List<Delta> deltas)
+        {
+            var result = concepts.ToList();
+
+            foreach (var delta in deltas)
+            {
+                switch (delta.Key)
+                {
+                    case DeltaKey.AddConcept:
+                        var concept = (Concept)delta.Value;
+                        if (concept != null)
+                        {
+                            result.Add(concept);
+                            concept.Action = CommitAction.Create;
+                        }
+                        break;
+                    case DeltaKey.RemoveConcept:
+                        concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
+                        if (concept != null)
+                        {
+                            result.Remove(concept);
+                        }
+                        break;
+                    case DeltaKey.UpdateDescription:
+                        concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
+                        if (concept != null)
+                        {
+                            concept.Description = (string)delta.Value;
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaKey.AddRelatedConcept:
+                        concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
+                        if (concept != null)
+                        {
+                            concept.RelatedConceptIds.Add((string)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaKey.RemoveRelatedConcept:
+                        concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
+                        if (concept != null)
+                        {
+                            concept.RelatedConceptIds.Remove((string)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaKey.AddConceptUser:
+                        concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
+                        if (concept != null)
+                        {
+                            concept.UserIds.Add((Guid)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                }
+
+            }
+
+            return result;
         }
     }
 }

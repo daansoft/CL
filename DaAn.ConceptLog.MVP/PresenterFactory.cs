@@ -18,9 +18,9 @@ namespace DaAn.ConceptLog.MVP
             return new MainPresenter(this.ViewFactory.GetMainView());
         }
 
-        public CommitPresenter GetCommitPresenter(string path, Guid userId, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
+        public CommitPresenter GetCommitPresenter(string path, Guid userId, ProjectDetails projectDetails, List<Delta> deltas)
         {
-            return new CommitPresenter(this.ViewFactory.GetCommitView(), path, userId, projectDetails, addedConcepts, editedConcepts, deletedConcepts);
+            return new CommitPresenter(this.ViewFactory.GetCommitView(), path, userId, projectDetails, deltas);
         }
 
         public ConceptPresenter GetConceptPresenter(string conceptId)
