@@ -15,15 +15,13 @@ namespace DaAn.ConceptLog.Model.Services
         private ProjectDetailsRepository projectDetailsRepository;
         private BranchRepository branchRepository;
         private CommitRepository commitRepository;
-        private SnapshotRepository snapshotRepository;
         private BlobRepository blobRepository;
 
-        public ConceptService(ProjectDetailsRepository projectDetailsRepository, BranchRepository branchRepository, CommitRepository commitRepository, SnapshotRepository snapshotRepository, BlobRepository blobRepository)
+        public ConceptService(ProjectDetailsRepository projectDetailsRepository, BranchRepository branchRepository, CommitRepository commitRepository, BlobRepository blobRepository)
         {
             this.projectDetailsRepository = projectDetailsRepository;
             this.branchRepository = branchRepository;
             this.commitRepository = commitRepository;
-            this.snapshotRepository = snapshotRepository;
             this.blobRepository = blobRepository;
         }
 
@@ -41,6 +39,8 @@ namespace DaAn.ConceptLog.Model.Services
 
         public List<Concept> FindByCommitId(string path, string commitId)
         {
+            var result = new List<Concept>();
+
             var commit = this.commitRepository.Read(path, commitId);
 
             if (commit == null)
@@ -48,30 +48,19 @@ namespace DaAn.ConceptLog.Model.Services
                 return new List<Concept>();
             }
 
-            return this.FindBySnapshotId(path, commit.SnapshotId);
-        }
-
-        public List<Concept> FindBySnapshotId(string path, string snapshotId)
-        {
-            var result = new List<Concept>();
-
-            var snapshot = this.snapshotRepository.Read(path, snapshotId);
-
-            if (snapshot == null)
+            foreach (var blobDetails in commit.BlobsDetails)
             {
-                return new List<Concept>();
-            }
-
-            foreach (var blobDetails in snapshot.BlobsDetails)
-            {
-                var blob = this.blobRepository.Read(path, blobDetails.BlobId);
-
-                if (blob == null)
+                if (blobDetails.Type == 1)
                 {
-                    continue;
-                }
+                    var blob = this.blobRepository.Read(path, blobDetails.BlobId);
 
-                result.Add(JsonConvert.DeserializeObject<Concept>(blob.Content));
+                    if (blob == null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(JsonConvert.DeserializeObject<Concept>(blob.Content));
+                }
             }
 
             return result;
@@ -85,22 +74,19 @@ namespace DaAn.ConceptLog.Model.Services
                 previousCommit = this.commitRepository.Read(path, projectDetails.PreviuosCommitId);
             }
 
-            Snapshot previousSnapshot = null;
-            if (previousCommit != null)
+            var newCommit = new Commit()
             {
-                previousSnapshot = snapshotRepository.Read(path, previousCommit.SnapshotId);
-            }
-
-            var newSnapshot = new Snapshot()
-            {
-                Id = ProjectTools.NewId()
+                Id = ProjectTools.NewId(),
+                ParentId = previousCommit == null ? null : previousCommit.Id,
+                UserId = userId,
+                Description = description
             };
 
             var newBlobs = new List<Blob>();
 
-            if (previousSnapshot != null)
+            if (previousCommit != null)
             {
-                newSnapshot.BlobsDetails = previousSnapshot.BlobsDetails.Where(r => !deletedConcepts.Any(c => c.Id == r.ConceptId)).ToList();
+                newCommit.BlobsDetails = previousCommit.BlobsDetails.Where(r => !deletedConcepts.Any(c => c.Id.ToString() == r.ObjectId)).ToList();
             }
 
             foreach (var concept in addedConcepts)
@@ -109,10 +95,12 @@ namespace DaAn.ConceptLog.Model.Services
 
                 newBlobs.Add(blob);
 
-                newSnapshot.BlobsDetails.Add(new BlobDetails()
+                newCommit.BlobsDetails.Add(new BlobDetails()
                 {
                     BlobId = blob.Id,
-                    ConceptId = concept.Id
+                    ObjectId = concept.Id.ToString(),
+                    Type = 1,
+                    Action = 1
                 });
             }
 
@@ -122,19 +110,13 @@ namespace DaAn.ConceptLog.Model.Services
 
                 newBlobs.Add(blob);
 
-                var blobDetails = newSnapshot.BlobsDetails.SingleOrDefault(r => r.ConceptId == concept.Id);
+                var blobDetails = newCommit.BlobsDetails.SingleOrDefault(r => r.ObjectId == concept.Id.ToString());
 
                 blobDetails.BlobId = blob.Id;
+                blobDetails.Action = 2;
             }
 
-            var newCommit = new Commit()
-            {
-                Id = ProjectTools.NewId(),
-                ParentId = previousCommit == null ? null : previousCommit.Id,
-                SnapshotId = newSnapshot.Id,
-                UserId = userId,
-                Description = description
-            };
+
 
             var branch = this.branchRepository.Read(path, projectDetails.BranchName);
             branch.CommitId = newCommit.Id;
@@ -144,7 +126,6 @@ namespace DaAn.ConceptLog.Model.Services
             this.projectDetailsRepository.Save(path, projectDetails);
             this.branchRepository.Save(path, branch);
             this.commitRepository.Save(path, newCommit);
-            this.snapshotRepository.Save(path, newSnapshot);
             this.blobRepository.Save(path, newBlobs);
 
             addedConcepts.Clear();

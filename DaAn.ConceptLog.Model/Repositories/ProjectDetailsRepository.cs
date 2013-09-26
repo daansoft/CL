@@ -11,7 +11,7 @@ namespace DaAn.ConceptLog.Model.Repositories
 {
     public class ProjectDetailsRepository
     {
-        private static readonly string ProjectDetailsFile = "project_details.clpd";
+        private static readonly string ProjectDetailsFile = "project.clpr";
 
         public void Save(string path, ProjectDetails details)
         {

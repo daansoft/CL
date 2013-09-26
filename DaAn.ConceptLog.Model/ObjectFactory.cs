@@ -62,17 +62,6 @@ namespace DaAn.ConceptLog.Model
             return this.branchRepository;
         }
 
-        private SnapshotRepository snapshotRepository;
-        public SnapshotRepository GetSnapshotRepository()
-        {
-            if (this.snapshotRepository == null)
-            {
-                this.snapshotRepository = new SnapshotRepository();
-            }
-
-            return this.snapshotRepository;
-        }
-
         private BlobRepository blobRepository;
         public BlobRepository GetBlobRepository()
         {
@@ -92,7 +81,6 @@ namespace DaAn.ConceptLog.Model
             return new ConceptService(this.GetProjectDetailsRepository(),
                 this.GetBranchRepository(),
                 this.GetCommitRepository(),
-                this.GetSnapshotRepository(),
                 this.GetBlobRepository());
         }
 

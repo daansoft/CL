@@ -18,7 +18,6 @@ namespace DaAn.ConceptLog.Model.Test.Repositories
                 Id = Guid.NewGuid().ToString(),
                 Description = "Test",
                 ParentId = null,
-                SnapshotId = "agfhsdgfsgdf",
                 UserId = Guid.NewGuid()
             });
         }
