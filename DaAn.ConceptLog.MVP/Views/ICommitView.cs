@@ -15,5 +15,7 @@ namespace DaAn.ConceptLog.MVP.Views
         void SetConcepts(List<Concept> concepts);
         void Show();
         void SendMessage(string message);
+
+        string GetCommitMessage();
     }
 }

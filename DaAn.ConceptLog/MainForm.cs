@@ -24,6 +24,8 @@ namespace DaAn.ConceptLog
 
         public void SetConcepts(List<Concept> concepts)
         {
+            this.conceptsBS.DataSource = concepts;
+            this.conceptsBS.ResetBindings(true);
         }
 
         private void openProjectMI_Click(object sender, EventArgs e)
@@ -51,6 +53,11 @@ namespace DaAn.ConceptLog
         private void commitMI_Click(object sender, EventArgs e)
         {
             this.MainPresenter.Commit();
+        }
+
+        private void addNewConceptMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.AddNewConcept();
         }
     }
 }

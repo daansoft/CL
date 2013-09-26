@@ -1,4 +1,5 @@
-﻿using DaAn.ConceptLog.MVP.Presenters;
+﻿using DaAn.ConceptLog.Model.Entities;
+using DaAn.ConceptLog.MVP.Presenters;
 using DaAn.ConceptLog.MVP.Views;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace DaAn.ConceptLog.MVP
             return new MainPresenter(this.GetMainView());
         }
 
-        public CommitPresenter GetCommitPresenter()
+        public CommitPresenter GetCommitPresenter(string path, Guid userId, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
         {
-            return new CommitPresenter(this.GetCommitView());
+            return new CommitPresenter(this.GetCommitView(), path, userId, projectDetails, addedConcepts, editedConcepts, deletedConcepts);
         }
     }
 }

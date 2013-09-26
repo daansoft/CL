@@ -50,6 +50,12 @@
     <Compile Include="CommitForm.Designer.cs">
       <DependentUpon>CommitForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConceptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConceptForm.Designer.cs">
+      <DependentUpon>ConceptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
     <Compile Include="WinFormsMVPFactory.cs" />
     <EmbeddedResource Include="CommitForm.resx">
       <DependentUpon>CommitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptForm.resx">
+      <DependentUpon>ConceptForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -74,6 +83,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\DaAn.ConceptLog.Model.Entities.Concept.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

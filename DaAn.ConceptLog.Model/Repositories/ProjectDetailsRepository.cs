@@ -15,6 +15,11 @@ namespace DaAn.ConceptLog.Model.Repositories
 
         public void Save(string path, ProjectDetails details)
         {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
             File.WriteAllText(Path.Combine(path, ProjectDetailsFile), JsonConvert.SerializeObject(details));
         }
 

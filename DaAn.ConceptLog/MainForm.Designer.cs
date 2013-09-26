@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.mainTools = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newProjectMI = new System.Windows.Forms.ToolStripMenuItem();
             this.openProjectMI = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
@@ -47,10 +49,17 @@
             this.showChangesMI = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.newProjectMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.creatorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conceptsBS = new System.Windows.Forms.BindingSource(this.components);
+            this.conceptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewConceptMI = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTools.SuspendLayout();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.conceptsBS)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTools
@@ -73,7 +82,8 @@
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.projectToolStripMenuItem,
             this.branchToolStripMenuItem,
-            this.commitToolStripMenuItem});
+            this.commitToolStripMenuItem,
+            this.conceptToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(910, 24);
@@ -92,29 +102,36 @@
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "Project";
             // 
+            // newProjectMI
+            // 
+            this.newProjectMI.Name = "newProjectMI";
+            this.newProjectMI.Size = new System.Drawing.Size(103, 22);
+            this.newProjectMI.Text = "&New";
+            this.newProjectMI.Click += new System.EventHandler(this.newProjectMI_Click);
+            // 
             // openProjectMI
             // 
             this.openProjectMI.Name = "openProjectMI";
-            this.openProjectMI.Size = new System.Drawing.Size(152, 22);
+            this.openProjectMI.Size = new System.Drawing.Size(103, 22);
             this.openProjectMI.Text = "&Open";
             this.openProjectMI.Click += new System.EventHandler(this.openProjectMI_Click);
             // 
             // saveProjectMI
             // 
             this.saveProjectMI.Name = "saveProjectMI";
-            this.saveProjectMI.Size = new System.Drawing.Size(152, 22);
+            this.saveProjectMI.Size = new System.Drawing.Size(103, 22);
             this.saveProjectMI.Text = "&Save";
             this.saveProjectMI.Click += new System.EventHandler(this.saveProjectMI_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(100, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
             // branchToolStripMenuItem
@@ -158,7 +175,7 @@
             // commitMI
             // 
             this.commitMI.Name = "commitMI";
-            this.commitMI.Size = new System.Drawing.Size(152, 22);
+            this.commitMI.Size = new System.Drawing.Size(150, 22);
             this.commitMI.Text = "&Commit";
             this.commitMI.Click += new System.EventHandler(this.commitMI_Click);
             // 
@@ -183,7 +200,14 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.idDataGridViewTextBoxColumn,
+            this.numberDataGridViewTextBoxColumn,
+            this.descriptionDataGridViewTextBoxColumn,
+            this.creatorIdDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.conceptsBS;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 49);
             this.dataGridView1.Name = "dataGridView1";
@@ -199,12 +223,52 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // newProjectMI
+            // idDataGridViewTextBoxColumn
             // 
-            this.newProjectMI.Name = "newProjectMI";
-            this.newProjectMI.Size = new System.Drawing.Size(152, 22);
-            this.newProjectMI.Text = "&New";
-            this.newProjectMI.Click += new System.EventHandler(this.newProjectMI_Click);
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
+            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
+            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // creatorIdDataGridViewTextBoxColumn
+            // 
+            this.creatorIdDataGridViewTextBoxColumn.DataPropertyName = "CreatorId";
+            this.creatorIdDataGridViewTextBoxColumn.HeaderText = "CreatorId";
+            this.creatorIdDataGridViewTextBoxColumn.Name = "creatorIdDataGridViewTextBoxColumn";
+            this.creatorIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // conceptsBS
+            // 
+            this.conceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
+            // 
+            // conceptToolStripMenuItem
+            // 
+            this.conceptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addNewConceptMI});
+            this.conceptToolStripMenuItem.Name = "conceptToolStripMenuItem";
+            this.conceptToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.conceptToolStripMenuItem.Text = "Concept";
+            // 
+            // addNewConceptMI
+            // 
+            this.addNewConceptMI.Name = "addNewConceptMI";
+            this.addNewConceptMI.Size = new System.Drawing.Size(152, 22);
+            this.addNewConceptMI.Text = "Add new";
+            this.addNewConceptMI.Click += new System.EventHandler(this.addNewConceptMI_Click);
             // 
             // MainForm
             // 
@@ -223,6 +287,7 @@
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.conceptsBS)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -250,6 +315,13 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem newProjectMI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn creatorIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource conceptsBS;
+        private System.Windows.Forms.ToolStripMenuItem conceptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNewConceptMI;
     }
 }
 

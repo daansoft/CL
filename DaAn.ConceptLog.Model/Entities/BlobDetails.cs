@@ -8,7 +8,7 @@ namespace DaAn.ConceptLog.Model.Entities
 {
     public class BlobDetails
     {
-        public string Id { get; set; }
+        public string BlobId { get; set; }
         public Guid ConceptId { get; set; }
     }
 }

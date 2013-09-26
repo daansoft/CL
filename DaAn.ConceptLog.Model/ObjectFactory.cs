@@ -87,28 +87,23 @@ namespace DaAn.ConceptLog.Model
 
         //-------------------------------------------------
 
-        private ProjectService projectService;
-        public ProjectService GetProjectService()
+        public ConceptService GetConceptService()
         {
-            if (this.projectService == null)
-            {
-                this.projectService = new ProjectService(this.GetCommitRepository(),
-                    this.GetSnapshotRepository(),
-                    this.GetBlobRepository());
-            }
-
-            return this.projectService;
+            return new ConceptService(this.GetProjectDetailsRepository(),
+                this.GetBranchRepository(),
+                this.GetCommitRepository(),
+                this.GetSnapshotRepository(),
+                this.GetBlobRepository());
         }
 
-        private ProjectDetailsService projectDetailsService;
         public ProjectDetailsService GetProjectDetailsService()
         {
-            if (this.projectDetailsService == null)
-            {
-                this.projectDetailsService = new ProjectDetailsService(this.GetProjectDetailsRepository());
-            }
+            return new ProjectDetailsService(this.GetProjectDetailsRepository());
+        }
 
-            return this.projectDetailsService;
+        public BranchService GetBranchService()
+        {
+            return new BranchService(this.GetBranchRepository());
         }
     }
 }

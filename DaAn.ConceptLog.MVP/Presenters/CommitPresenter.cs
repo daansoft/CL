@@ -12,13 +12,13 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class CommitPresenter
     {
-        private ProjectService projectService;
+        private ConceptService conceptService;
         private ProjectDetailsService projectDetailsService;
 
         private ICommitView commitView;
         private string path;
 
-        private Guid usreId;
+        private Guid userId;
 
         private ProjectDetails projectDetails;
 
@@ -26,24 +26,29 @@ namespace DaAn.ConceptLog.MVP.Presenters
         private List<Concept> editedConcepts;
         private List<Concept> deletedConcepts;
 
-        public CommitPresenter(ICommitView mainView)
+        public CommitPresenter(ICommitView mainView, string path, Guid userId, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
         {
             mainView.CommitPresenter = this;
 
             this.commitView = mainView;
 
-            this.addedConcepts = new List<Concept>();
-            this.editedConcepts = new List<Concept>();
-            this.deletedConcepts = new List<Concept>();
+            this.path = path;
+            this.userId = userId;
+            this.projectDetails = projectDetails;
 
-            this.projectService = ObjectFactory.Instance.GetProjectService();
+            this.addedConcepts = addedConcepts;
+            this.editedConcepts = editedConcepts;
+            this.deletedConcepts = deletedConcepts;
+
+            this.conceptService = ObjectFactory.Instance.GetConceptService();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
         }
 
         public void Commit()
         {
-            var description = "Test";
-            this.projectDetails.CommitId = this.projectService.Commit(this.path, this.usreId, description, this.projectDetails.CommitId, this.addedConcepts, this.editedConcepts, this.deletedConcepts);
+            var description = this.commitView.GetCommitMessage();
+            this.conceptService.Commit(this.path, this.userId, description, this.projectDetails, this.addedConcepts, this.editedConcepts, this.deletedConcepts);
+
         }
 
         public void Show()

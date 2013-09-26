@@ -12,13 +12,15 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class MainPresenter
     {
-        private ProjectService projectService;
+
+        private ConceptService conceptService;
         private ProjectDetailsService projectDetailsService;
+        private BranchService branchService;
 
         private IMainView mainView;
         private string path;
 
-        private Guid usreId;
+        private Guid userId;
 
         private ProjectDetails projectDetails;
 
@@ -31,32 +33,48 @@ namespace DaAn.ConceptLog.MVP.Presenters
             mainView.MainPresenter = this;
 
             this.mainView = mainView;
+            this.userId = Guid.NewGuid();
 
             this.addedConcepts = new List<Concept>();
             this.editedConcepts = new List<Concept>();
             this.deletedConcepts = new List<Concept>();
 
-            this.projectService = ObjectFactory.Instance.GetProjectService();
+            this.conceptService = ObjectFactory.Instance.GetConceptService();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
+            this.branchService = ObjectFactory.Instance.GetBranchService();
         }
 
         public void OpenProject(string path)
         {
-            this.projectDetails = projectDetailsService.Read(path);
+            if (!this.projectDetailsService.Exists(path))
+            {
+                this.mainView.SendMessage("Projekt nie istnieje");
+                return;
+            }
+
+            this.projectDetails = this.projectDetailsService.Read(path);
 
             this.path = path;
+            this.RefreshData();
+        }
 
-            this.mainView.SetConcepts(new List<Concept>());
+        private void RefreshData()
+        {
+            var concepts = new List<Concept>();
+
+            concepts.AddRange(this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName));
+
+            this.mainView.SetConcepts(this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName));
         }
 
         public void SaveProject()
         {
-            projectDetailsService.Save(this.path, this.projectDetails);
+            this.projectDetailsService.Save(this.path, this.projectDetails);
         }
 
         public void NewProject(string path, string name, string description)
         {
-            if (projectDetailsService.Exists(path))
+            if (this.projectDetailsService.Exists(path))
             {
                 this.mainView.SendMessage("Projekt istnieje");
                 return;
@@ -69,19 +87,39 @@ namespace DaAn.ConceptLog.MVP.Presenters
                 Name = name,
                 Description = description,
                 BranchName = "master",
-                CommitId = null
+                PreviuosCommitId = null
             };
 
-            projectDetailsService.Save(path, this.projectDetails);
-
+            this.projectDetailsService.Save(path, this.projectDetails);
+            this.branchService.Save(path, new Branch()
+            {
+                CommitId = null,
+                Name = this.projectDetails.BranchName
+            });
 
         }
 
         public void Commit()
         {
-            var commitPresenter = MVPSetting.Factory.GetCommitPresenter();
+            var commitPresenter = MVPSetting.Factory.GetCommitPresenter(this.path,
+                this.userId,
+                this.projectDetails,
+                this.addedConcepts,
+                this.editedConcepts,
+                this.deletedConcepts);
 
             commitPresenter.Show();
+        }
+
+        public void AddNewConcept()
+        {
+            this.addedConcepts.Add(new Concept()
+            {
+                CreatorId = this.userId,
+                Description = "Opis",
+                Id = Guid.NewGuid()
+            });
+
         }
     }
 }

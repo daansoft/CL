@@ -29,5 +29,16 @@ namespace DaAn.ConceptLog
         public void SendMessage(string message)
         {
         }
+
+        private void commitBT_Click(object sender, EventArgs e)
+        {
+            this.CommitPresenter.Commit();
+        }
+
+
+        public string GetCommitMessage()
+        {
+            return "Test";
+        }
     }
 }

@@ -11,6 +11,6 @@ namespace DaAn.ConceptLog.Model.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string BranchName { get; set; }
-        public string CommitId { get; set; }
+        public string PreviuosCommitId { get; set; }
     }
 }
