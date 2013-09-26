@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Entities
 {
-    public interface IEntity<IDT>
+    public class Delta
     {
-        IDT Id { get; set; }
+        public string ObjectId { get; set; }
+
+        public int Action { get; set; } // add, update, remove
     }
 }

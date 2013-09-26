@@ -8,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.MVP.Views
 {
-    public interface IMainView
+    public interface IConceptView
     {
-        MainPresenter MainPresenter { get; set; }
+        ConceptPresenter ConceptPresenter { get; set; }
 
-        void SetConcepts(List<Concept> concepts);
         void ShowView();
 
+        void CloseView();
 
+        Concept GetSelected();
 
-        void SendMessage(string message);
+        string Description { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace DaAn.ConceptLog.MVP.Views
     {
         ConceptListPresenter ConceptListPresenter { get; set; }
 
-        void Show();
+        void ShowView();
     }
 }

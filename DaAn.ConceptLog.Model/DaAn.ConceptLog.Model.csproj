@@ -47,7 +47,7 @@
     <Compile Include="Entities\Commit.cs" />
     <Compile Include="Entities\Concept.cs" />
     <Compile Include="Entities\BlobDetails.cs" />
-    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\Delta.cs" />
     <Compile Include="Entities\Project.cs" />
     <Compile Include="Entities\ProjectDetails.cs" />
     <Compile Include="ObjectFactory.cs" />
@@ -59,7 +59,6 @@
     <Compile Include="Repositories\BlobRepository.cs" />
     <Compile Include="Repositories\RepositorySettings.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ProjectDetailsRepository.cs" />
     <Compile Include="Services\ConceptService.cs" />
     <Compile Include="Services\BranchService.cs" />

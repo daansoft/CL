@@ -19,7 +19,7 @@ namespace DaAn.ConceptLog
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MVPSetting.Factory = new WinFormsMVPFactory();
+            MVPSetting.PresenterFactory.ViewFactory = new WinFormsViewFactory();
 
             MainForm form = new MainForm();
             MainPresenter presenter = new MainPresenter(form);

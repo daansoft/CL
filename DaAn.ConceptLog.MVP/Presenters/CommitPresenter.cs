@@ -49,11 +49,13 @@ namespace DaAn.ConceptLog.MVP.Presenters
             var description = this.commitView.GetCommitMessage();
             this.conceptService.Commit(this.path, this.userId, description, this.projectDetails, this.addedConcepts, this.editedConcepts, this.deletedConcepts);
 
+            this.commitView.CloseView();
+
         }
 
         public void Show()
         {
-            this.commitView.Show();
+            this.commitView.ShowView();
         }
     }
 }

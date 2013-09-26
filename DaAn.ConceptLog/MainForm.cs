@@ -28,6 +28,11 @@ namespace DaAn.ConceptLog
             this.conceptsBS.ResetBindings(true);
         }
 
+        public void ShowView()
+        {
+            this.Show();
+        }
+
         private void openProjectMI_Click(object sender, EventArgs e)
         {
             var path = "Test";

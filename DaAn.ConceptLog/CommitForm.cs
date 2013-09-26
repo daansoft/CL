@@ -40,5 +40,16 @@ namespace DaAn.ConceptLog
         {
             return "Test";
         }
+
+        public void ShowView()
+        {
+            this.ShowDialog();
+        }
+
+
+        public void CloseView()
+        {
+            this.Close();
+        }
     }
 }

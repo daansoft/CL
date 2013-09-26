@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog
 {
-    public class WinFormsMVPFactory : MVPFactory
+    public class WinFormsViewFactory : IViewFactory
     {
-
-        public override IMainView GetMainView()
+        public IMainView GetMainView()
         {
             return new MainForm();
         }
 
-        public override ICommitView GetCommitView()
+        public ICommitView GetCommitView()
         {
             return new CommitForm();
+        }
+
+
+        public IConceptView GetConceptView()
+        {
+            return new ConceptForm();
         }
     }
 }

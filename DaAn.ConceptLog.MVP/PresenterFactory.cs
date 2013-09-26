@@ -9,19 +9,23 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.MVP
 {
-    public abstract class MVPFactory
+    public class PresenterFactory
     {
-        public abstract IMainView GetMainView();
-        public abstract ICommitView GetCommitView();
+        public IViewFactory ViewFactory { get; set; }
 
         public MainPresenter GetMainPresenter()
         {
-            return new MainPresenter(this.GetMainView());
+            return new MainPresenter(this.ViewFactory.GetMainView());
         }
 
         public CommitPresenter GetCommitPresenter(string path, Guid userId, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
         {
-            return new CommitPresenter(this.GetCommitView(), path, userId, projectDetails, addedConcepts, editedConcepts, deletedConcepts);
+            return new CommitPresenter(this.ViewFactory.GetCommitView(), path, userId, projectDetails, addedConcepts, editedConcepts, deletedConcepts);
+        }
+
+        public ConceptPresenter GetConceptPresenter(string conceptId)
+        {
+            return new ConceptPresenter(this.ViewFactory.GetConceptView(), conceptId);
         }
     }
 }

@@ -8,6 +8,11 @@ namespace DaAn.ConceptLog.MVP
 {
     public class MVPSetting
     {
-        public static MVPFactory Factory;
+        public static PresenterFactory PresenterFactory;
+
+        static MVPSetting()
+        {
+            MVPSetting.PresenterFactory = new PresenterFactory();
+        }
     }
 }

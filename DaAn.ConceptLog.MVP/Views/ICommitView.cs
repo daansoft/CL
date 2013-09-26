@@ -13,9 +13,11 @@ namespace DaAn.ConceptLog.MVP.Views
         CommitPresenter CommitPresenter { get; set; }
 
         void SetConcepts(List<Concept> concepts);
-        void Show();
+        void ShowView();
         void SendMessage(string message);
 
         string GetCommitMessage();
+
+        void CloseView();
     }
 }

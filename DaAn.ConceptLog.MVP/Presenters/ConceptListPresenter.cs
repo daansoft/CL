@@ -24,9 +24,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         void Show()
         {
-
-
-            this.conceptListView.Show();
+            this.conceptListView.ShowView();
         }
     }
 }

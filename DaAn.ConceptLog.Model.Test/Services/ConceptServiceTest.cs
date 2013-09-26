@@ -16,7 +16,7 @@ namespace DaAn.ConceptLog.Model.Test.Services
             service.Commit("test", Guid.NewGuid(), "Testtttt", new ProjectDetails(),
                 new List<Concept>() { 
                     new Concept() { 
-                        Id = new Guid("6648eccc-e586-4397-8ea2-7260f6b05199"),
+                        Id = "6648eccc-e586-4397-8ea2-7260f6b05199",
                         Description = "test2"
                     } 
                 },

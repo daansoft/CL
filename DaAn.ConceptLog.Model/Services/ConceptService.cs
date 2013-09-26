@@ -66,7 +66,7 @@ namespace DaAn.ConceptLog.Model.Services
             return result;
         }
 
-        public string Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Concept> addedConcepts, List<Concept> editedConcepts, List<Concept> deletedConcepts)
+        public string Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Concept> addedObjects, List<Concept> editedObjects, List<Concept> deletedObjects)
         {
             Commit previousCommit = null;
             if (projectDetails.PreviuosCommitId != null)
@@ -86,34 +86,34 @@ namespace DaAn.ConceptLog.Model.Services
 
             if (previousCommit != null)
             {
-                newCommit.BlobsDetails = previousCommit.BlobsDetails.Where(r => !deletedConcepts.Any(c => c.Id.ToString() == r.ObjectId)).ToList();
+                newCommit.BlobsDetails = previousCommit.BlobsDetails.Where(r => !deletedObjects.Any(c => c.Id == r.ObjectId)).ToList();
             }
 
-            foreach (var concept in addedConcepts)
+            foreach (var obj in addedObjects)
             {
-                var blob = ConvertConceptToBlob(concept);
+                var blob = ConvertConceptToBlob(obj);
 
                 newBlobs.Add(blob);
 
                 newCommit.BlobsDetails.Add(new BlobDetails()
                 {
                     BlobId = blob.Id,
-                    ObjectId = concept.Id.ToString(),
+                    ObjectId = obj.Id,
                     Type = 1,
-                    Action = 1
+                    Action = 1 // new
                 });
             }
 
-            foreach (var concept in editedConcepts)
+            foreach (var obj in editedObjects)
             {
-                var blob = ConvertConceptToBlob(concept);
+                var blob = ConvertConceptToBlob(obj);
 
                 newBlobs.Add(blob);
 
-                var blobDetails = newCommit.BlobsDetails.SingleOrDefault(r => r.ObjectId == concept.Id.ToString());
+                var blobDetails = newCommit.BlobsDetails.SingleOrDefault(r => r.ObjectId == obj.Id);
 
                 blobDetails.BlobId = blob.Id;
-                blobDetails.Action = 2;
+                blobDetails.Action = 2; // update
             }
 
 
@@ -128,9 +128,9 @@ namespace DaAn.ConceptLog.Model.Services
             this.commitRepository.Save(path, newCommit);
             this.blobRepository.Save(path, newBlobs);
 
-            addedConcepts.Clear();
-            editedConcepts.Clear();
-            deletedConcepts.Clear();
+            addedObjects.Clear();
+            editedObjects.Clear();
+            deletedObjects.Clear();
 
             return newCommit.Id;
         }
