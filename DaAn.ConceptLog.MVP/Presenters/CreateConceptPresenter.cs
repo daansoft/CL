@@ -12,18 +12,18 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class CreateConceptPresenter
     {
-        private ConceptService conceptService;
+        private IConceptService conceptService;
+        private DeltaService deltaService;
 
         private IConceptView conceptView;
 
         private string path;
         private string commitId;
-        private List<Delta> deltas;
         private List<Delta> localDeltas;
 
         private Concept concept;
 
-        public CreateConceptPresenter(IConceptView conceptView, ConceptService conceptService, string path, string commitId, List<Delta> deltas)
+        public CreateConceptPresenter(IConceptView conceptView, IConceptService conceptService, string path, string commitId, DeltaService deltaService)
         {
             conceptView.ConceptPresenter = this;
             this.conceptView = conceptView;
@@ -32,7 +32,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             this.localDeltas = new List<Delta>();
             this.path = path;
-            this.deltas = deltas;
+            this.deltaService = deltaService;
             this.commitId = commitId;
         }
 
@@ -47,7 +47,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             var relatedConcepts = new List<Concept>();
 
-            relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id, this.deltas);
+            relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id);
 
             //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.deltas.ToList()); // .Where(r => r.ObjectId == this.concept.Id)
 
@@ -66,8 +66,8 @@ namespace DaAn.ConceptLog.MVP.Presenters
                 Description = this.conceptView.Description
             };
 
-            this.deltas.AddRange(this.localDeltas);
-            this.deltas.Add(new Delta()
+            this.deltaService.Create(this.localDeltas);
+            this.deltaService.Create(new Delta()
             {
                 Action = DeltaAction.AddConcept,
                 ObjectId = concept.Id,

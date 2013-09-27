@@ -57,11 +57,15 @@
     <Compile Include="Repositories\BranchRepository.cs" />
     <Compile Include="Repositories\CommitRepository.cs" />
     <Compile Include="Repositories\BlobRepository.cs" />
+    <Compile Include="Repositories\DeltaRepository.cs" />
     <Compile Include="Repositories\RepositorySettings.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\ProjectDetailsRepository.cs" />
+    <Compile Include="Services\CommitService.cs" />
     <Compile Include="Services\ConceptService.cs" />
     <Compile Include="Services\BranchService.cs" />
+    <Compile Include="Services\DeltaService.cs" />
+    <Compile Include="Services\ConceptServiceDecorator.cs" />
     <Compile Include="Services\IConceptService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Utils\ProjectTools.cs" />

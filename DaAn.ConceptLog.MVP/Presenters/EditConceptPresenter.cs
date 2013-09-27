@@ -14,18 +14,18 @@ namespace DaAn.ConceptLog.MVP.Presenters
     {
         private PresenterMode presenterMode;
 
-        private ConceptService conceptService;
+        private IConceptService conceptService;
+        private DeltaService deltaService;
 
         private IConceptView conceptView;
 
         private string path;
         private string commitId;
-        private List<Delta> deltas;
         private List<Delta> localDeltas;
 
         private Concept concept;
 
-        public EditConceptPresenter(IConceptView conceptView, PresenterMode presenterMode, ConceptService conceptService, string conceptId, string path, string commitId, List<Delta> deltas)
+        public EditConceptPresenter(IConceptView conceptView, PresenterMode presenterMode, ConceptService conceptService, string conceptId, string path, string commitId, DeltaService deltaService)
         {
             //conceptView.ConceptPresenter = this;
             this.conceptView = conceptView;
@@ -37,7 +37,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.localDeltas = new List<Delta>();
             this.path = path;
             this.commitId = commitId;
-            this.deltas = deltas;
+            this.deltaService = deltaService;
 
             Initailize(conceptId);
         }
@@ -46,7 +46,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             if (this.presenterMode == PresenterMode.Edit)
             {
-                this.concept = this.conceptService.ReadConceptByCommitIdAndConceptId(this.path, this.commitId, conceptId, this.deltas);
+                this.concept = this.conceptService.ReadConceptByCommitIdAndConceptId(this.path, this.commitId, conceptId);
                 this.conceptView.Description = this.concept.Description;
             }
             else if (this.presenterMode == PresenterMode.Create)
@@ -78,7 +78,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             if (this.presenterMode == PresenterMode.Edit)
             {
-                relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id, this.deltas);
+                relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id);
             }
 
             //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.deltas.ToList()); // .Where(r => r.ObjectId == this.concept.Id)
@@ -92,11 +92,11 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             this.Action = 0;
 
-            this.deltas.AddRange(this.localDeltas);
+            this.deltaService.Create(this.localDeltas);
 
             if (presenterMode == PresenterMode.Edit)
             {
-                this.deltas.Add(new Delta()
+                this.deltaService.Create(new Delta()
                 {
                     Action = DeltaAction.UpdateConceptDescription,
                     ObjectId = this.concept.Id,

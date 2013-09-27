@@ -73,15 +73,26 @@ namespace DaAn.ConceptLog.Model
             return this.blobRepository;
         }
 
+        private DeltaRepository deltaRepository;
+        public DeltaRepository GetDeltaRepository()
+        {
+            if (this.deltaRepository == null)
+            {
+                this.deltaRepository = new DeltaRepository();
+            }
+
+            return this.deltaRepository;
+        }
 
         //-------------------------------------------------
 
-        public ConceptService GetConceptService()
+        public IConceptService GetConceptService()
         {
-            return new ConceptService(this.GetProjectDetailsRepository(),
+            return new ConceptServiceDecorator(new ConceptService(this.GetProjectDetailsRepository(),
                 this.GetBranchRepository(),
                 this.GetCommitRepository(),
-                this.GetBlobRepository());
+                this.GetBlobRepository()),
+                this.GetDeltaRepository());
         }
 
         public ProjectDetailsService GetProjectDetailsService()
@@ -92,6 +103,20 @@ namespace DaAn.ConceptLog.Model
         public BranchService GetBranchService()
         {
             return new BranchService(this.GetBranchRepository());
+        }
+
+        public DeltaService GetDeltaService()
+        {
+            return new DeltaService(this.GetDeltaRepository());
+        }
+
+        public CommitService GetCommitService()
+        {
+            return new CommitService(this.GetProjectDetailsRepository(),
+                this.GetBranchRepository(),
+                this.GetCommitRepository(),
+                this.GetBlobRepository(),
+                this.GetDeltaRepository());
         }
     }
 }
