@@ -31,10 +31,10 @@ namespace DaAn.ConceptLog.Model.Services
 
             if (branch == null)
             {
-                return new List<Concept>(); //TODO
+                return this.MergeConceptWithDeltas(new List<Concept>(), deltas); //TODO
             }
 
-            return this.FindByCommitId(path, branch.CommitId, deltas);
+            return this.MergeConceptWithDeltas(this.FindByCommitId(path, branch.CommitId, null), deltas);
         }
 
         public List<Concept> FindByCommitId(string path, string commitId, List<Delta> deltas)
@@ -43,21 +43,19 @@ namespace DaAn.ConceptLog.Model.Services
 
             var commit = this.commitRepository.Read(path, commitId);
 
-            if (commit == null)
+            if (commit != null)
             {
-                return new List<Concept>(); //TODO
-            }
-
-            foreach (var blobDetails in commit.BlobsDetails)
-            {
-                var concept = this.ReadConceptFromBlobDetails(path, blobDetails, deltas);
-                if (concept != null)
+                foreach (var blobDetails in commit.BlobsDetails)
                 {
-                    result.Add(concept);
+                    var concept = this.ReadConceptFromBlobDetails(path, blobDetails, null);
+                    if (concept != null)
+                    {
+                        result.Add(concept);
+                    }
                 }
             }
 
-            return result;
+            return this.MergeConceptWithDeltas(result, deltas);
         }
 
         private Concept ReadConceptFromBlobDetails(string path, BlobDetails blobDetails, List<Delta> deltas)
@@ -68,13 +66,13 @@ namespace DaAn.ConceptLog.Model.Services
             }
 
             var blob = this.blobRepository.Read(path, blobDetails.BlobId);
-            return this.ReadConceptFromBlob(blob, deltas);
+            return this.MergeConceptWithDelta(this.ReadConceptFromBlob(blob, null), deltas);
         }
 
         private Concept ReadConceptFromBlob(Blob blob, List<Delta> deltas)
         {
             var concept = JsonConvert.DeserializeObject<Concept>(blob.Content);
-            return this.UpdateConceptFromDelta(concept, deltas);
+            return this.MergeConceptWithDelta(concept, deltas);
         }
 
         public void Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Delta> deltas)
@@ -163,118 +161,146 @@ namespace DaAn.ConceptLog.Model.Services
         }
 
 
-        
 
-        public Concept UpdateConceptFromDelta(Concept concept, List<Delta> deltas)
+        public Concept MergeConceptWithDelta(Concept concept, List<Delta> deltas)
         {
-            var deltasForConcept = deltas.Where(r => r.ObjectId == concept.Id && r.Key == DeltaKey.Concept).ToList();
-
-            if (deltasForConcept.Any(r => r.Action == DeltaAction.Remove))
+            if (deltas == null)
             {
-                return null;
+                return concept;
             }
+
+            var deltasForConcept = deltas.Where(r => r.ObjectId == concept.Id).ToList();
 
             foreach (var delta in deltasForConcept)
             {
-                //?
-                //TODO
+                switch (delta.Action)
+                {
+                    case DeltaAction.AddConcept:
+                        /*var newConcept = (Concept)delta.Value;
+                        if (newConcept != null)
+                        {
+                            result.Add(newConcept);
+                            newConcept.Action = CommitAction.Create;
+                        }*/
+                        break;
+                    case DeltaAction.AddRelatedConcept:
+                        if (concept != null)
+                        {
+                            concept.RelatedConceptIds.Add((string)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.AddConceptUser:
+                        if (concept != null)
+                        {
+                            concept.UserIds.Add((Guid)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.UpdateConceptDescription:
+                        if (concept != null)
+                        {
+                            concept.Description = (string)delta.Value;
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.RemoveConcept:
+                        if (concept != null)
+                        {
+                            //result.Remove(concept);
+
+                            concept = null;
+                        }
+                        break;
+                    case DeltaAction.RemoveRelatedConcept:
+                        if (concept != null)
+                        {
+                            concept.RelatedConceptIds.Remove((string)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.RemoveConceptUser:
+                        if (concept != null)
+                        {
+                            concept.UserIds.Remove((Guid)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            return null;
+            return concept;
         }
 
-        public List<Concept> MergeDeltasWithConcepts(List<Delta> deltas, List<Concept> concepts)
+        public List<Concept> MergeConceptWithDeltas(List<Concept> concepts, List<Delta> deltas)
         {
-            //TODO zmienić
             var result = concepts.ToList();
+
+            if (deltas == null)
+            {
+                return result;
+            }
 
             foreach (var delta in deltas.OrderBy(r => (int)r.Action))
             {
                 var concept = result.SingleOrDefault(r => r.Id == delta.ObjectId);
 
-                switch (delta.Key)
+                switch (delta.Action)
                 {
-                    case DeltaKey.Concept:
-                        switch (delta.Action)
+                    case DeltaAction.AddConcept:
+                        var newConcept = (Concept)delta.Value;
+                        if (newConcept != null)
                         {
-                            case DeltaAction.Add:
-                                concept = (Concept)delta.Value;
-                                if (concept != null)
-                                {
-                                    result.Add(concept);
-                                    concept.Action = CommitAction.Create;
-                                }
-                                break;
-                            case DeltaAction.Remove:
-                                if (concept != null)
-                                {
-                                    result.Remove(concept);
-                                }
-                                break;
-                            default:
-                                throw new Exception("Concept action");
-                        }
-
-                        break;
-                    case DeltaKey.ConceptDescription:
-                        switch (delta.Action)
-                        {
-                            case DeltaAction.Update:
-                                if (concept != null)
-                                {
-                                    concept.Description = (string)delta.Value;
-                                    concept.Action = CommitAction.Update;
-                                }
-                                break;
-                            default:
-                                throw new Exception("ConceptDescription action");
+                            result.Add(newConcept);
+                            newConcept.Action = CommitAction.Create;
                         }
                         break;
-                    case DeltaKey.RelatedConcept:
-                        switch (delta.Action)
+                    case DeltaAction.AddRelatedConcept:
+                        if (concept != null)
                         {
-                            case DeltaAction.Add:
-                                if (concept != null)
-                                {
-                                    concept.RelatedConceptIds.Add((string)delta.Value);
-                                    concept.Action = CommitAction.Update;
-                                }
-                                break;
-                            case DeltaAction.Remove:
-                                if (concept != null)
-                                {
-                                    concept.RelatedConceptIds.Remove((string)delta.Value);
-                                    concept.Action = CommitAction.Update;
-                                }
-                                break;
-                            default:
-                                throw new Exception("Concept action");
+                            concept.RelatedConceptIds.Add((string)delta.Value);
+                            concept.Action = CommitAction.Update;
                         }
-
                         break;
-                    case DeltaKey.ConceptUser:
-                        switch (delta.Action)
+                    case DeltaAction.AddConceptUser:
+                        if (concept != null)
                         {
-                            case DeltaAction.Add:
-                                if (concept != null)
-                                {
-                                    concept.UserIds.Add((Guid)delta.Value);
-                                    concept.Action = CommitAction.Update;
-                                }
-                                break;
-                            case DeltaAction.Remove:
-                                if (concept != null)
-                                {
-                                    concept.UserIds.Remove((Guid)delta.Value);
-                                    concept.Action = CommitAction.Update;
-                                }
-                                break;
-                            default:
-                                throw new Exception("Concept action");
+                            concept.UserIds.Add((Guid)delta.Value);
+                            concept.Action = CommitAction.Update;
                         }
+                        break;
+                    case DeltaAction.UpdateConceptDescription:
+                        if (concept != null)
+                        {
+                            concept.Description = (string)delta.Value;
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.RemoveConcept:
+                        if (concept != null)
+                        {
+                            result.Remove(concept);
+                        }
+                        break;
+                    case DeltaAction.RemoveRelatedConcept:
+                        if (concept != null)
+                        {
+                            concept.RelatedConceptIds.Remove((string)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    case DeltaAction.RemoveConceptUser:
+                        if (concept != null)
+                        {
+                            concept.UserIds.Remove((Guid)delta.Value);
+                            concept.Action = CommitAction.Update;
+                        }
+                        break;
+                    default:
                         break;
                 }
-
             }
 
             return result;
@@ -286,7 +312,7 @@ namespace DaAn.ConceptLog.Model.Services
 
             if (concept == null)
             {
-                return null;
+                return null; //TODO
             }
 
             var result = new List<Concept>();
@@ -300,6 +326,7 @@ namespace DaAn.ConceptLog.Model.Services
                     result.Add(relatedConcept);
                 }
             }
+
             return result;
         }
 
@@ -313,6 +340,13 @@ namespace DaAn.ConceptLog.Model.Services
             }
 
             var blobDetails = commit.BlobsDetails.SingleOrDefault(r => r.ObjectId == conceptId);
+
+            if (blobDetails == null)
+            {
+                var concepts = new List<Concept>();
+
+                concepts = this.MergeConceptWithDeltas(concepts, deltas);
+            }
 
             return this.ReadConceptFromBlobDetails(path, blobDetails, deltas);
         }

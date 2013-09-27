@@ -62,6 +62,7 @@
     <Compile Include="Repositories\ProjectDetailsRepository.cs" />
     <Compile Include="Services\ConceptService.cs" />
     <Compile Include="Services\BranchService.cs" />
+    <Compile Include="Services\IConceptService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Utils\ProjectTools.cs" />
   </ItemGroup>

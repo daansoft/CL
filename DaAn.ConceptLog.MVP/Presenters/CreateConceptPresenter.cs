@@ -60,7 +60,19 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             this.Action = 0;
 
+            var concept = new Concept()
+            {
+                Id = ProjectTools.NewId(),
+                Description = this.conceptView.Description
+            };
+
             this.deltas.AddRange(this.localDeltas);
+            this.deltas.Add(new Delta()
+            {
+                Action = DeltaAction.AddConcept,
+                ObjectId = concept.Id,
+                Value = concept
+            });
 
             this.conceptView.CloseView();
         }
@@ -75,16 +87,14 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             this.localDeltas.Add(new Delta()
             {
-                Action = DeltaAction.Add,
-                Key = DeltaKey.RelatedConcept,
+                Action = DeltaAction.AddRelatedConcept,
                 ObjectId = this.concept.Id,
                 Value = "0d87f225-cb64-406c-881a-52193a602a76"
             });
 
             this.localDeltas.Add(new Delta()
             {
-                Action = DeltaAction.Add,
-                Key = DeltaKey.RelatedConcept,
+                Action = DeltaAction.AddRelatedConcept,
                 ObjectId = "0d87f225-cb64-406c-881a-52193a602a76",
                 Value = this.concept.Id
             });
