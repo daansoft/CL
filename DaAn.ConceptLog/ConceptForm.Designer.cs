@@ -33,14 +33,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.relatedConceptsBS = new System.Windows.Forms.BindingSource(this.components);
             this.addRelatedConceptBT = new System.Windows.Forms.Button();
             this.removeRelatedConceptBT = new System.Windows.Forms.Button();
             this.saveBT = new System.Windows.Forms.Button();
             this.cancelBT = new System.Windows.Forms.Button();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.creatorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.relatedConceptsBS = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.relatedConceptsBS)).BeginInit();
             this.SuspendLayout();
@@ -73,17 +71,24 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.creatorIdDataGridViewTextBoxColumn});
+            this.descriptionDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.relatedConceptsBS;
             this.dataGridView1.Location = new System.Drawing.Point(12, 169);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(692, 268);
             this.dataGridView1.TabIndex = 3;
+            // 
+            // relatedConceptsBS
+            // 
+            this.relatedConceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
             // 
             // addRelatedConceptBT
             // 
@@ -125,27 +130,12 @@
             this.cancelBT.UseVisualStyleBackColor = true;
             this.cancelBT.Click += new System.EventHandler(this.cancelBT_Click);
             // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
             // descriptionDataGridViewTextBoxColumn
             // 
+            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            // 
-            // creatorIdDataGridViewTextBoxColumn
-            // 
-            this.creatorIdDataGridViewTextBoxColumn.DataPropertyName = "CreatorId";
-            this.creatorIdDataGridViewTextBoxColumn.HeaderText = "CreatorId";
-            this.creatorIdDataGridViewTextBoxColumn.Name = "creatorIdDataGridViewTextBoxColumn";
-            // 
-            // relatedConceptsBS
-            // 
-            this.relatedConceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
             // 
             // ConceptForm
             // 
@@ -175,13 +165,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn creatorIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource relatedConceptsBS;
         private System.Windows.Forms.Button addRelatedConceptBT;
         private System.Windows.Forms.Button removeRelatedConceptBT;
         private System.Windows.Forms.Button saveBT;
         private System.Windows.Forms.Button cancelBT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
     }
 }

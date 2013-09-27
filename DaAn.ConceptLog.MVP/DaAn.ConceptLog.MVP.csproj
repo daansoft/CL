@@ -43,10 +43,12 @@
     <Compile Include="PresenterFactory.cs" />
     <Compile Include="MVPSetting.cs" />
     <Compile Include="Presenters\CommitPresenter.cs" />
-    <Compile Include="Presenters\ConceptPresenter.cs" />
+    <Compile Include="Presenters\CreateConceptPresenter.cs" />
+    <Compile Include="Presenters\EditConceptPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Presenters\ConceptListPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PresenterMode.cs" />
     <Compile Include="Views\IConceptView.cs" />
     <Compile Include="Views\ICommitView.cs" />
     <Compile Include="Views\IConceptListView.cs" />

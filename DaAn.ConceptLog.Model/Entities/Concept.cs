@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Entities
 {
-    public enum CommitAction
-    {
-        NoChange = 0,
-        Create = 1,
-        Delete = 2,
-        Update = 3
-    }
-
     public class Concept
     {
         public string Id { get; set; }
@@ -29,6 +21,8 @@ namespace DaAn.ConceptLog.Model.Entities
         public Concept()
         {
             this.Action = CommitAction.Create;
+            this.RelatedConceptIds = new List<string>();
+            this.UserIds = new List<Guid>();
         }
     }
 }

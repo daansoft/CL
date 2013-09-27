@@ -23,10 +23,6 @@ namespace DaAn.ConceptLog.MVP.Presenters
         private Guid userId;
         private ProjectDetails projectDetails;
 
-        private List<Concept> addedConcepts;
-        private List<Concept> editedConcepts;
-        private List<Concept> deletedConcepts;
-
         private List<Delta> deltas;
 
         public MainPresenter(IMainView mainView)
@@ -35,10 +31,6 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             this.mainView = mainView;
             this.userId = Guid.NewGuid();
-
-            this.addedConcepts = new List<Concept>();
-            this.editedConcepts = new List<Concept>();
-            this.deletedConcepts = new List<Concept>();
 
             this.deltas = new List<Delta>();
 
@@ -65,9 +57,9 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private void RefreshData()
         {
-            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName);
+            var concepts = this.conceptService.FindByCommitId(this.path, this.projectDetails.PreviuosCommitId, deltas);
 
-            this.mainView.SetConcepts(this.conceptService.PrepareConcepts(concepts, this.deltas));
+            this.mainView.SetConcepts(concepts);
         }
 
         public void SaveProject()
@@ -116,28 +108,8 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddNewConcept()
         {
-            /*var conceptPresenter = MVPSetting.PresenterFactory.GetConceptPresenter(null);
-            conceptPresenter.Show();*/
-
-            var concept = new Concept()
-            {
-                Description = "Test delty",
-                Id = ProjectTools.NewId()
-            };
-
-            this.deltas.Add(new Delta()
-            {
-                ObjectId = concept.Id,
-                Key = DeltaKey.AddConcept,
-                Value = concept
-            });
-            
-            this.deltas.Add(new Delta()
-            {
-                ObjectId = "a970d11e-c44c-48d8-bc76-1ddf1c64b1bb",
-                Key = DeltaKey.RemoveConcept,
-                Value = null
-            });
+            var conceptPresenter = MVPSetting.PresenterFactory.GetCreateConceptPresenter(this.conceptService, this.path, this.projectDetails.PreviuosCommitId, this.deltas);
+            conceptPresenter.Show();
 
             this.RefreshData();
         }

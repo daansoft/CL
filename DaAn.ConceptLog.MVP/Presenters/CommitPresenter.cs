@@ -43,7 +43,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
         public void Commit()
         {
             var description = this.commitView.GetCommitMessage();
-            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName);
+            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName, new List<Delta>());
 
             this.conceptService.Commit(this.path, this.userId, description, this.projectDetails, this.deltas);
 

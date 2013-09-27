@@ -1,4 +1,5 @@
 ﻿using DaAn.ConceptLog.Model.Entities;
+using DaAn.ConceptLog.Model.Services;
 using DaAn.ConceptLog.MVP.Presenters;
 using DaAn.ConceptLog.MVP.Views;
 using System;
@@ -23,9 +24,9 @@ namespace DaAn.ConceptLog.MVP
             return new CommitPresenter(this.ViewFactory.GetCommitView(), path, userId, projectDetails, deltas);
         }
 
-        public ConceptPresenter GetConceptPresenter(string conceptId)
+        public CreateConceptPresenter GetCreateConceptPresenter(ConceptService conceptService, string path, string commitId, List<Delta> deltas)
         {
-            return new ConceptPresenter(this.ViewFactory.GetConceptView(), conceptId);
+            return new CreateConceptPresenter(this.ViewFactory.GetConceptView(), conceptService, path, commitId, deltas);
         }
     }
 }

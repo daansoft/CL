@@ -28,7 +28,7 @@ namespace DaAn.ConceptLog.Model.Test.Services
         {
             var service = ObjectFactory.Instance.GetConceptService();
 
-            var concepts = service.FindByCommitId("test", "1cee363a-162c-460c-a72c-833c24147707");
+            var concepts = service.FindByCommitId("test", "1cee363a-162c-460c-a72c-833c24147707", new List<Delta>());
 
 
         }

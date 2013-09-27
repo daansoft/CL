@@ -20,7 +20,7 @@ namespace DaAn.ConceptLog
             InitializeComponent();
         }
 
-        public ConceptPresenter ConceptPresenter { get; set; }
+        public CreateConceptPresenter ConceptPresenter { get; set; }
 
         private void saveBT_Click(object sender, EventArgs e)
         {
@@ -69,6 +69,13 @@ namespace DaAn.ConceptLog
             {
                 this.descriptionTB.Text = value;
             }
+        }
+
+
+        public void SetRelatedConcepts(List<Concept> relatedConcepts)
+        {
+            this.relatedConceptsBS.DataSource = relatedConcepts;
+            this.relatedConceptsBS.ResetBindings(true);
         }
     }
 }

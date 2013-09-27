@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Entities
 {
+    public enum CommitAction
+    {
+        NoChange = 0,
+        Create = 1,
+        Delete = 2,
+        Update = 3
+    }
+
     public class Commit
     {
         public Commit()
