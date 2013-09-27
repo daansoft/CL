@@ -82,7 +82,7 @@ namespace DaAn.ConceptLog.Model.Services
 
             if (concept == null)
             {
-                return null; //TODO
+                return new List<Concept>();
             }
 
             var result = new List<Concept>();

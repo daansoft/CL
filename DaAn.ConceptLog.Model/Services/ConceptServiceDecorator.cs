@@ -38,9 +38,20 @@ namespace DaAn.ConceptLog.Model.Services
 
         public List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string path, string commitId, string conceptId)
         {
-            var concepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(path, commitId, conceptId);
+            var concepts = this.deltaRepository.MergeConceptWithDeltas(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(path, commitId, conceptId));
 
-            //TODO
+            var relatedConceptIds = this.deltaRepository.FindRelatedConceptsIdsByConceptId(conceptId);
+
+            foreach (var relatedConceptId in relatedConceptIds)
+            {
+                var relatedConcept = this.ReadConceptByCommitIdAndConceptId(path, commitId, relatedConceptId);
+
+                if (relatedConcept != null)
+                {
+                    concepts.Add(relatedConcept);
+                }
+            }
+
 
             return concepts;
         }
@@ -51,10 +62,10 @@ namespace DaAn.ConceptLog.Model.Services
 
             if (concept == null)
             {
-                return null; //TODO
+                return this.deltaRepository.ReadConceptByConceptId(conceptId);
             }
 
-            return concept;
+            return this.deltaRepository.MergeConceptWithDelta(concept);
         }
     }
 }

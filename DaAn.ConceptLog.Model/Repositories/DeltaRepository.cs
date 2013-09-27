@@ -45,21 +45,30 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Add((string)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.AddConceptUser:
                         if (concept != null)
                         {
                             concept.UserIds.Add((Guid)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.UpdateConceptDescription:
                         if (concept != null)
                         {
                             concept.Description = (string)delta.Value;
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.RemoveConcept:
@@ -74,14 +83,20 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Remove((string)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.RemoveConceptUser:
                         if (concept != null)
                         {
                             concept.UserIds.Remove((Guid)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     default:
@@ -121,21 +136,30 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Add((string)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.AddConceptUser:
                         if (concept != null)
                         {
                             concept.UserIds.Add((Guid)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.UpdateConceptDescription:
                         if (concept != null)
                         {
                             concept.Description = (string)delta.Value;
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.RemoveConcept:
@@ -148,14 +172,20 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Remove((string)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     case DeltaAction.RemoveConceptUser:
                         if (concept != null)
                         {
                             concept.UserIds.Remove((Guid)delta.Value);
-                            concept.Action = CommitAction.Update;
+                            if (concept.Action != CommitAction.NoChange)
+                            {
+                                concept.Action = CommitAction.Update;
+                            }
                         }
                         break;
                     default:
@@ -184,6 +214,25 @@ namespace DaAn.ConceptLog.Model.Repositories
         public void Create(List<Delta> deltas)
         {
             DeltaRepository.Deltas.AddRange(deltas);
+        }
+
+        public List<string> FindRelatedConceptsIdsByConceptId(string conceptId)
+        {
+            var relatedConcept = DeltaRepository.Deltas.Where(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddRelatedConcept);
+
+            return relatedConcept.Select(r => (string)r.Value).ToList();
+        }
+
+        public Concept ReadConceptByConceptId(string conceptId)
+        {
+            var delta = DeltaRepository.Deltas.SingleOrDefault(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddConcept);
+
+            if (delta == null)
+            {
+                return null;
+            }
+
+            return (Concept)delta.Value;
         }
     }
 }

@@ -34,6 +34,11 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.path = path;
             this.deltaService = deltaService;
             this.commitId = commitId;
+
+            this.concept = new Concept()
+            {
+                Id = ProjectTools.NewId()
+            };
         }
 
         public int Action { get; set; }
@@ -45,33 +50,21 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private void RefreshData()
         {
-            var relatedConcepts = new List<Concept>();
-
-            relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id);
-
-            //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.deltas.ToList()); // .Where(r => r.ObjectId == this.concept.Id)
-
-            //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.localDeltas.ToList());
-
-            this.conceptView.SetRelatedConcepts(relatedConcepts);
+            this.conceptView.SetRelatedConcepts(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id));
         }
 
         public void Save()
         {
             this.Action = 0;
 
-            var concept = new Concept()
-            {
-                Id = ProjectTools.NewId(),
-                Description = this.conceptView.Description
-            };
+            this.concept.Description = this.conceptView.Description;
 
             this.deltaService.Create(this.localDeltas);
             this.deltaService.Create(new Delta()
             {
                 Action = DeltaAction.AddConcept,
-                ObjectId = concept.Id,
-                Value = concept
+                ObjectId = this.concept.Id,
+                Value = this.concept
             });
 
             this.conceptView.CloseView();
@@ -89,13 +82,13 @@ namespace DaAn.ConceptLog.MVP.Presenters
             {
                 Action = DeltaAction.AddRelatedConcept,
                 ObjectId = this.concept.Id,
-                Value = "0d87f225-cb64-406c-881a-52193a602a76"
+                Value = "0a09829d-edbc-4d6c-b4cb-55662769536b"
             });
 
             this.localDeltas.Add(new Delta()
             {
                 Action = DeltaAction.AddRelatedConcept,
-                ObjectId = "0d87f225-cb64-406c-881a-52193a602a76",
+                ObjectId = "0a09829d-edbc-4d6c-b4cb-55662769536b",
                 Value = this.concept.Id
             });
 
