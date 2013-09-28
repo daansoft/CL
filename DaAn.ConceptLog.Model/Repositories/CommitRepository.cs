@@ -11,9 +11,9 @@ namespace DaAn.ConceptLog.Model.Repositories
 {
     public class CommitRepository
     {
-        public void Save(string path, Commit commit)
+        public void Save(Commit commit)
         {
-            var directory = Path.Combine(path, "commits");
+            var directory = Path.Combine(ProjectSettings.Path, "commits");
 
             if (!Directory.Exists(directory))
             {
@@ -23,22 +23,22 @@ namespace DaAn.ConceptLog.Model.Repositories
             File.WriteAllText(Path.Combine(directory, commit.Id), JsonConvert.SerializeObject(commit));
         }
 
-        public void Save(string path, List<Commit> commits)
+        public void Save(List<Commit> commits)
         {
             foreach (var commit in commits)
             {
-                this.Save(path, commit);
+                this.Save(commit);
             }
         }
 
-        public Commit Read(string path, string id)
+        public Commit Read(string id)
         {
             if (id == null)
             {
                 return null;
             }
 
-            var file = Path.Combine(path, "commits", id);
+            var file = Path.Combine(ProjectSettings.Path, "commits", id);
 
             if (!File.Exists(file))
             {
@@ -48,10 +48,10 @@ namespace DaAn.ConceptLog.Model.Repositories
             return JsonConvert.DeserializeObject<Commit>(File.ReadAllText(file));
         }
 
-        public List<Commit> FindAll(string path)
+        public List<Commit> FindAll()
         {
             var result = new List<Commit>();
-            var directory = Path.Combine(path, "commits");
+            var directory = Path.Combine(ProjectSettings.Path, "commits");
 
             if (!Directory.Exists(directory))
             {
@@ -60,7 +60,7 @@ namespace DaAn.ConceptLog.Model.Repositories
 
             foreach (var commitFile in Directory.GetFiles(directory))
             {
-                result.Add(this.Read(path, Path.GetFileName(commitFile)));
+                result.Add(this.Read(Path.GetFileName(commitFile)));
             }
 
             return result;

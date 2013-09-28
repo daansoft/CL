@@ -25,29 +25,29 @@ namespace DaAn.ConceptLog.Model.Services
             this.blobRepository = blobRepository;
         }
 
-        public List<Concept> FindByBranchName(string path, string branchName)
+        public List<Concept> FindByBranchName(string branchName)
         {
-            var branch = this.branchRepository.Read(path, branchName);
+            var branch = this.branchRepository.Read(branchName);
 
             if (branch == null)
             {
                 return new List<Concept>(); //TODO
             }
 
-            return this.FindByCommitId(path, branch.CommitId);
+            return this.FindByCommitId(branch.CommitId);
         }
 
-        public List<Concept> FindByCommitId(string path, string commitId)
+        public List<Concept> FindByCommitId(string commitId)
         {
             var result = new List<Concept>();
 
-            var commit = this.commitRepository.Read(path, commitId);
+            var commit = this.commitRepository.Read(commitId);
 
             if (commit != null)
             {
                 foreach (var blobDetails in commit.BlobsDetails)
                 {
-                    var concept = this.ReadConceptFromBlobDetails(path, blobDetails);
+                    var concept = this.ReadConceptFromBlobDetails(blobDetails);
                     if (concept != null)
                     {
                         result.Add(concept);
@@ -58,14 +58,14 @@ namespace DaAn.ConceptLog.Model.Services
             return result;
         }
 
-        public Concept ReadConceptFromBlobDetails(string path, BlobDetails blobDetails)
+        public Concept ReadConceptFromBlobDetails(BlobDetails blobDetails)
         {
             if (blobDetails.Type != BlobDetailsType.Concept)
             {
                 return null; //TODO ?
             }
 
-            var blob = this.blobRepository.Read(path, blobDetails.BlobId);
+            var blob = this.blobRepository.Read(blobDetails.BlobId);
             return this.ReadConceptFromBlob(blob);
         }
 
@@ -76,9 +76,9 @@ namespace DaAn.ConceptLog.Model.Services
             return concept;
         }
 
-        public List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string path, string commitId, string conceptId)
+        public List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string commitId, string conceptId)
         {
-            var concept = this.ReadConceptByCommitIdAndConceptId(path, commitId, conceptId);
+            var concept = this.ReadConceptByCommitIdAndConceptId(commitId, conceptId);
 
             if (concept == null)
             {
@@ -89,7 +89,7 @@ namespace DaAn.ConceptLog.Model.Services
 
             foreach (var relatedConceptId in concept.RelatedConceptIds)
             {
-                var relatedConcept = this.ReadConceptByCommitIdAndConceptId(path, commitId, relatedConceptId);
+                var relatedConcept = this.ReadConceptByCommitIdAndConceptId(commitId, relatedConceptId);
 
                 if (relatedConcept != null)
                 {
@@ -100,9 +100,9 @@ namespace DaAn.ConceptLog.Model.Services
             return result;
         }
 
-        public Concept ReadConceptByCommitIdAndConceptId(string path, string currentCommitId, string conceptId)
+        public Concept ReadConceptByCommitIdAndConceptId(string currentCommitId, string conceptId)
         {
-            var commit = this.commitRepository.Read(path, currentCommitId);
+            var commit = this.commitRepository.Read(currentCommitId);
 
             if (commit == null)
             {
@@ -116,7 +116,7 @@ namespace DaAn.ConceptLog.Model.Services
                 return null;
             }
 
-            return this.ReadConceptFromBlobDetails(path, blobDetails);
+            return this.ReadConceptFromBlobDetails(blobDetails);
         }
     }
 }

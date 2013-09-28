@@ -19,19 +19,19 @@ namespace DaAn.ConceptLog.Model.Services
             this.projectDetailsRepository = projectDetailsRepository;
         }
 
-        public ProjectDetails Read(string path)
+        public ProjectDetails Read()
         {
-            return this.projectDetailsRepository.Read(path);
+            return this.projectDetailsRepository.Read();
         }
 
-        public void Save(string path, ProjectDetails details)
+        public void Save(ProjectDetails details)
         {
-            this.projectDetailsRepository.Save(path, details);
+            this.projectDetailsRepository.Save(details);
         }
 
-        public bool Exists(string path)
+        public bool Exists()
         {
-            return this.projectDetailsRepository.Exists(path);
+            return this.projectDetailsRepository.Exists();
         }
     }
 }

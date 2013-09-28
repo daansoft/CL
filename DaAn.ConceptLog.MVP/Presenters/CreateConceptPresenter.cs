@@ -13,25 +13,23 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class CreateConceptPresenter
     {
-        private ConceptServiceLocalDeltaDecorator conceptService;
+        private ConceptServiceWithGlobalAndLocalDeltas conceptService;
         private DeltaService deltaService;
 
         private IConceptView conceptView;
 
-        private string path;
         private string commitId;
 
         private Concept concept;
 
-        public CreateConceptPresenter(IConceptView conceptView, string path, string commitId)
+        public CreateConceptPresenter(IConceptView conceptView, string commitId)
         {
             conceptView.ConceptPresenter = this;
             this.conceptView = conceptView;
 
-            this.conceptService = ObjectFactory.Instance.GetConceptServiceWithLocalDeltas();
+            this.conceptService = ObjectFactory.Instance.GetConceptServiceWithGlobalAndLocalDeltas();
             this.deltaService = ObjectFactory.Instance.GetDeltaService();
 
-            this.path = path;
             this.commitId = commitId;
 
             this.concept = new Concept()
@@ -49,7 +47,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private void RefreshData()
         {
-            this.conceptView.SetRelatedConcepts(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id));
+            this.conceptView.SetRelatedConcepts(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.commitId, this.concept.Id));
         }
 
         public void Save()

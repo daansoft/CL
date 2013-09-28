@@ -13,17 +13,18 @@ namespace DaAn.ConceptLog.Model.Repositories
     {
         private static readonly string UserFile = "users.clu";
 
-        public void Save(string path, List<User> users)
+        public void Save(List<User> users)
         {
             if (users != null)
             {
-                File.WriteAllText(path + UserFile, JsonConvert.SerializeObject(users));
+                //TODO combine
+                File.WriteAllText(ProjectSettings.Path + UserFile, JsonConvert.SerializeObject(users));
             }
         }
 
-        public List<User> Read(string path)
+        public List<User> Read()
         {
-            var users = File.ReadAllText(path + UserFile);
+            var users = File.ReadAllText(ProjectSettings.Path + UserFile);
             if (!string.IsNullOrWhiteSpace(users))
             {
                 return JsonConvert.DeserializeObject<List<User>>(users);

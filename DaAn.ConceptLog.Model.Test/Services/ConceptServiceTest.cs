@@ -11,7 +11,7 @@ namespace DaAn.ConceptLog.Model.Test.Services
         [TestMethod]
         public void TestCommit()
         {
-            var service = ObjectFactory.Instance.GetConceptService();
+            var service = ObjectFactory.Instance.GetConceptServiceWithDeltas();
 
             /*service.Commit("test", Guid.NewGuid(), "Testtttt", new ProjectDetails(),
                 new List<Concept>() { 
@@ -26,9 +26,9 @@ namespace DaAn.ConceptLog.Model.Test.Services
         [TestMethod]
         public void TestFindByCommitId()
         {
-            var service = ObjectFactory.Instance.GetConceptService();
-
-            var concepts = service.FindByCommitId("test", "1cee363a-162c-460c-a72c-833c24147707");
+            var service = ObjectFactory.Instance.GetConceptServiceWithDeltas();
+            ProjectSettings.Path = "Test";
+            var concepts = service.FindByCommitId("1cee363a-162c-460c-a72c-833c24147707");
 
 
         }

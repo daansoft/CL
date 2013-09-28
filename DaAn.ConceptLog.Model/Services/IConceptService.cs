@@ -12,10 +12,10 @@ namespace DaAn.ConceptLog.Model.Services
 {
     public interface IConceptService
     {
-        List<Concept> FindByBranchName(string path, string branchName);
-        List<Concept> FindByCommitId(string path, string commitId);
-        Concept ReadConceptFromBlobDetails(string path, BlobDetails blobDetails);
-        List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string path, string commitId, string conceptId);
-        Concept ReadConceptByCommitIdAndConceptId(string path, string currentCommitId, string conceptId);
+        List<Concept> FindByBranchName(string branchName);
+        List<Concept> FindByCommitId(string commitId);
+        Concept ReadConceptFromBlobDetails(BlobDetails blobDetails);
+        List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string commitId, string conceptId);
+        Concept ReadConceptByCommitIdAndConceptId(string currentCommitId, string conceptId);
     }
 }

@@ -17,23 +17,21 @@ namespace DaAn.ConceptLog.MVP.Presenters
         private ProjectDetailsService projectDetailsService;
 
         private ICommitView commitView;
-        private string path;
 
         private Guid userId;
 
         private ProjectDetails projectDetails;
 
-        public CommitPresenter(ICommitView mainView, string path, Guid userId, ProjectDetails projectDetails)
+        public CommitPresenter(ICommitView mainView, Guid userId, ProjectDetails projectDetails)
         {
             mainView.CommitPresenter = this;
 
             this.commitView = mainView;
 
-            this.path = path;
             this.userId = userId;
             this.projectDetails = projectDetails;
 
-            this.conceptService = ObjectFactory.Instance.GetConceptService();
+            this.conceptService = ObjectFactory.Instance.GetConceptServiceWithDeltas();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
             this.commitService = ObjectFactory.Instance.GetCommitService();
         }
@@ -41,9 +39,9 @@ namespace DaAn.ConceptLog.MVP.Presenters
         public void Commit()
         {
             var description = this.commitView.GetCommitMessage();
-            var concepts = this.conceptService.FindByBranchName(this.path, this.projectDetails.BranchName);
+            var concepts = this.conceptService.FindByBranchName(this.projectDetails.BranchName);
 
-            this.commitService.Commit(this.path, this.userId, description, this.projectDetails, concepts);
+            this.commitService.Commit(this.userId, description, this.projectDetails, concepts);
 
             this.commitView.CloseView();
 

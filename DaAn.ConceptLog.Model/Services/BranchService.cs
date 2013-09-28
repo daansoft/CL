@@ -19,14 +19,14 @@ namespace DaAn.ConceptLog.Model.Services
             this.branchRepository = branchRepository;
         }
 
-        public Branch Read(string path, string name)
+        public Branch Read(string name)
         {
-            return this.branchRepository.Read(path, name);
+            return this.branchRepository.Read(name);
         }
 
-        public void Save(string path, Branch branch)
+        public void Save(Branch branch)
         {
-            this.branchRepository.Save(path, branch);
+            this.branchRepository.Save(branch);
         }
     }
 }

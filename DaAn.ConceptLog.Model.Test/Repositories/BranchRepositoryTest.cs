@@ -12,8 +12,8 @@ namespace DaAn.ConceptLog.Model.Test.Repositories
         public void TestSave()
         {
             var repository = ObjectFactory.Instance.GetBranchRepository();
-
-            repository.Save("Test", new Branch()
+            ProjectSettings.Path = "Test";
+            repository.Save(new Branch()
             {
                 Name = "master",
                 CommitId = Guid.NewGuid().ToString(),
@@ -25,7 +25,9 @@ namespace DaAn.ConceptLog.Model.Test.Repositories
         {
             var repository = ObjectFactory.Instance.GetBranchRepository();
 
-            var result = repository.FindAll("Test");
+            ProjectSettings.Path = "Test";
+
+            var result = repository.FindAll();
         }
     }
 }

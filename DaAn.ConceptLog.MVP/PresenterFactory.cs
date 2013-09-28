@@ -19,14 +19,14 @@ namespace DaAn.ConceptLog.MVP
             return new MainPresenter(this.ViewFactory.GetMainView());
         }
 
-        public CommitPresenter GetCommitPresenter(string path, Guid userId, ProjectDetails projectDetails)
+        public CommitPresenter GetCommitPresenter(Guid userId, ProjectDetails projectDetails)
         {
-            return new CommitPresenter(this.ViewFactory.GetCommitView(), path, userId, projectDetails);
+            return new CommitPresenter(this.ViewFactory.GetCommitView(), userId, projectDetails);
         }
 
-        public CreateConceptPresenter GetCreateConceptPresenter(string path, string commitId)
+        public CreateConceptPresenter GetCreateConceptPresenter(string commitId)
         {
-            return new CreateConceptPresenter(this.ViewFactory.GetConceptView(), path, commitId);
+            return new CreateConceptPresenter(this.ViewFactory.GetConceptView(), commitId);
         }
     }
 }

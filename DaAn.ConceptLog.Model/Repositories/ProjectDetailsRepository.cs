@@ -13,24 +13,24 @@ namespace DaAn.ConceptLog.Model.Repositories
     {
         private static readonly string ProjectDetailsFile = "project.clpr";
 
-        public void Save(string path, ProjectDetails details)
+        public void Save(ProjectDetails details)
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(ProjectSettings.Path))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(ProjectSettings.Path);
             }
 
-            File.WriteAllText(Path.Combine(path, ProjectDetailsFile), JsonConvert.SerializeObject(details));
+            File.WriteAllText(Path.Combine(ProjectSettings.Path, ProjectDetailsFile), JsonConvert.SerializeObject(details));
         }
 
-        public ProjectDetails Read(string path)
+        public ProjectDetails Read()
         {
-            return JsonConvert.DeserializeObject<ProjectDetails>(File.ReadAllText(Path.Combine(path, ProjectDetailsFile)));
+            return JsonConvert.DeserializeObject<ProjectDetails>(File.ReadAllText(Path.Combine(ProjectSettings.Path, ProjectDetailsFile)));
         }
 
-        public bool Exists(string path)
+        public bool Exists()
         {
-            return File.Exists(Path.Combine(path, ProjectDetailsFile));
+            return File.Exists(Path.Combine(ProjectSettings.Path, ProjectDetailsFile));
         }
     }
 }

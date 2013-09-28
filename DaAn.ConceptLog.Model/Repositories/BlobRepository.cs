@@ -11,9 +11,9 @@ namespace DaAn.ConceptLog.Model.Repositories
 {
     public class BlobRepository
     {
-        public void Save(string path, Blob blob)
+        public void Save(Blob blob)
         {
-            var directory = Path.Combine(path, "blobs");
+            var directory = Path.Combine(ProjectSettings.Path, "blobs");
 
             if (!Directory.Exists(directory))
             {
@@ -23,22 +23,22 @@ namespace DaAn.ConceptLog.Model.Repositories
             File.WriteAllText(Path.Combine(directory, blob.Id), JsonConvert.SerializeObject(blob));
         }
 
-        public void Save(string path, List<Blob> blobs)
+        public void Save(List<Blob> blobs)
         {
             foreach (var blob in blobs)
             {
-                this.Save(path, blob);
+                this.Save(blob);
             }
         }
 
-        public Blob Read(string path, string id)
+        public Blob Read(string id)
         {
             if (id == null)
             {
                 return null;
             }
 
-            var file = Path.Combine(path, "blobs", id);
+            var file = Path.Combine(ProjectSettings.Path, "blobs", id);
 
             if (!File.Exists(file))
             {
@@ -48,10 +48,10 @@ namespace DaAn.ConceptLog.Model.Repositories
             return JsonConvert.DeserializeObject<Blob>(File.ReadAllText(file));
         }
 
-        public List<Blob> FindAll(string path)
+        public List<Blob> FindAll()
         {
             var result = new List<Blob>();
-            var directory = Path.Combine(path, "blobs");
+            var directory = Path.Combine(ProjectSettings.Path, "blobs");
 
             if (!Directory.Exists(directory))
             {
@@ -60,7 +60,7 @@ namespace DaAn.ConceptLog.Model.Repositories
 
             foreach (var blobFile in Directory.GetFiles(directory))
             {
-                result.Add(this.Read(path, Path.GetFileName(blobFile)));
+                result.Add(this.Read(Path.GetFileName(blobFile)));
             }
 
             return result;

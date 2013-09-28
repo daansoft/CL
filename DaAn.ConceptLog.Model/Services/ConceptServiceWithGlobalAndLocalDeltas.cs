@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DaAn.ConceptLog.Model.Services
 {
-    public class ConceptServiceLocalDeltaDecorator : ConceptServiceDeltaDecorator
+    public class ConceptServiceWithGlobalAndLocalDeltas : ConceptServiceWithDeltas
     {
         public List<Delta> LocalDeltas { get; set; }
 
-        public ConceptServiceLocalDeltaDecorator(IConceptService conceptService, DeltaRepository deltaRepository) :
+        public ConceptServiceWithGlobalAndLocalDeltas(IConceptService conceptService, DeltaRepository deltaRepository) :
             base(conceptService, deltaRepository)
         {
             this.LocalDeltas = new List<Delta>();

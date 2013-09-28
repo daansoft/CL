@@ -11,9 +11,9 @@ namespace DaAn.ConceptLog.Model.Repositories
 {
     public class BranchRepository
     {
-        public void Save(string path, Branch branch)
+        public void Save(Branch branch)
         {
-            var directory = Path.Combine(path, "branches");
+            var directory = Path.Combine(ProjectSettings.Path, "branches");
 
             if (!Directory.Exists(directory))
             {
@@ -23,17 +23,17 @@ namespace DaAn.ConceptLog.Model.Repositories
             File.WriteAllText(Path.Combine(directory, branch.Name), JsonConvert.SerializeObject(branch));
         }
 
-        public void Save(string path, List<Branch> branches)
+        public void Save(List<Branch> branches)
         {
             foreach (var branch in branches)
             {
-                this.Save(path, branch);
+                this.Save(branch);
             }
         }
 
-        public Branch Read(string path, string name)
+        public Branch Read(string name)
         {
-            var file = Path.Combine(path, "branches", name);
+            var file = Path.Combine(ProjectSettings.Path, "branches", name);
 
             if (!File.Exists(file))
             {
@@ -43,10 +43,10 @@ namespace DaAn.ConceptLog.Model.Repositories
             return JsonConvert.DeserializeObject<Branch>(File.ReadAllText(file));
         }
 
-        public List<Branch> FindAll(string path)
+        public List<Branch> FindAll()
         {
             var result = new List<Branch>();
-            var directory = Path.Combine(path, "branches");
+            var directory = Path.Combine(ProjectSettings.Path, "branches");
 
             if (!Directory.Exists(directory))
             {
@@ -55,7 +55,7 @@ namespace DaAn.ConceptLog.Model.Repositories
 
             foreach (var branchFile in Directory.GetFiles(directory))
             {
-                result.Add(this.Read(path, Path.GetFileName(branchFile)));
+                result.Add(this.Read(Path.GetFileName(branchFile)));
             }
 
             return result;

@@ -19,13 +19,12 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private IConceptView conceptView;
 
-        private string path;
         private string commitId;
         private List<Delta> localDeltas;
 
         private Concept concept;
 
-        public EditConceptPresenter(IConceptView conceptView, PresenterMode presenterMode, ConceptService conceptService, string conceptId, string path, string commitId, DeltaService deltaService)
+        public EditConceptPresenter(IConceptView conceptView, PresenterMode presenterMode, ConceptService conceptService, string conceptId, string commitId, DeltaService deltaService)
         {
             //conceptView.ConceptPresenter = this;
             this.conceptView = conceptView;
@@ -35,7 +34,6 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.conceptService = conceptService;
 
             this.localDeltas = new List<Delta>();
-            this.path = path;
             this.commitId = commitId;
             this.deltaService = deltaService;
 
@@ -46,7 +44,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             if (this.presenterMode == PresenterMode.Edit)
             {
-                this.concept = this.conceptService.ReadConceptByCommitIdAndConceptId(this.path, this.commitId, conceptId);
+                this.concept = this.conceptService.ReadConceptByCommitIdAndConceptId(this.commitId, conceptId);
                 this.conceptView.Description = this.concept.Description;
             }
             else if (this.presenterMode == PresenterMode.Create)
@@ -78,7 +76,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             if (this.presenterMode == PresenterMode.Edit)
             {
-                relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id);
+                relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.commitId, this.concept.Id);
             }
 
             this.conceptView.SetRelatedConcepts(relatedConcepts);

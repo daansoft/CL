@@ -27,12 +27,12 @@ namespace DaAn.ConceptLog.Model.Services
             this.deltaRepository = deltaRepository;
         }
 
-        public void Commit(string path, Guid userId, string description, ProjectDetails projectDetails, List<Concept> concepts)
+        public void Commit(Guid userId, string description, ProjectDetails projectDetails, List<Concept> concepts)
         {
             Commit previousCommit = null;
             if (projectDetails.PreviuosCommitId != null)
             {
-                previousCommit = this.commitRepository.Read(path, projectDetails.PreviuosCommitId);
+                previousCommit = this.commitRepository.Read(projectDetails.PreviuosCommitId);
             }
 
             var newCommit = new Commit()
@@ -88,13 +88,13 @@ namespace DaAn.ConceptLog.Model.Services
 
             projectDetails.PreviuosCommitId = newCommit.Id;
 
-            var branch = this.branchRepository.Read(path, projectDetails.BranchName);
+            var branch = this.branchRepository.Read(projectDetails.BranchName);
             branch.CommitId = newCommit.Id;
 
-            this.projectDetailsRepository.Save(path, projectDetails);
-            this.branchRepository.Save(path, branch);
-            this.commitRepository.Save(path, newCommit);
-            this.blobRepository.Save(path, newBlobs);
+            this.projectDetailsRepository.Save(projectDetails);
+            this.branchRepository.Save(branch);
+            this.commitRepository.Save(newCommit);
+            this.blobRepository.Save(newBlobs);
 
             this.deltaRepository.DeleteAll();
         }

@@ -21,7 +21,6 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         private IMainView mainView;
 
-        private string path;
         private Guid userId;
         private ProjectDetails projectDetails;
 
@@ -32,7 +31,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.mainView = mainView;
             this.userId = Guid.NewGuid();
 
-            this.conceptService = ObjectFactory.Instance.GetConceptService();
+            this.conceptService = ObjectFactory.Instance.GetConceptServiceWithDeltas();
             this.projectDetailsService = ObjectFactory.Instance.GetProjectDetailsService();
             this.branchService = ObjectFactory.Instance.GetBranchService();
             this.deltaService = ObjectFactory.Instance.GetDeltaService();
@@ -40,41 +39,43 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void OpenProject(string path)
         {
-            if (!this.projectDetailsService.Exists(path))
+            ProjectSettings.Path = path;
+            if (!this.projectDetailsService.Exists())
             {
                 this.mainView.SendMessage("Projekt nie istnieje");
                 return;
             }
 
-            this.projectDetails = this.projectDetailsService.Read(path);
+
+            this.projectDetails = this.projectDetailsService.Read();
 
             this.deltaService.DeleteAll();
 
-            this.path = path;
+            ProjectSettings.Path = path;
             this.RefreshData();
         }
 
         private void RefreshData()
         {
-            var concepts = this.conceptService.FindByCommitId(this.path, this.projectDetails.PreviuosCommitId);
+            var concepts = this.conceptService.FindByCommitId(this.projectDetails.PreviuosCommitId);
 
             this.mainView.SetConcepts(concepts);
         }
 
         public void SaveProject()
         {
-            this.projectDetailsService.Save(this.path, this.projectDetails);
+            this.projectDetailsService.Save(this.projectDetails);
         }
 
-        public void NewProject(string path, string name, string description)
+        public void NewProject(string name, string description)
         {
-            if (this.projectDetailsService.Exists(path))
+            ProjectSettings.Path = "test";
+            if (this.projectDetailsService.Exists())
             {
                 this.mainView.SendMessage("Projekt istnieje");
+                ProjectSettings.Path = null;
                 return;
             }
-
-            this.path = path;
 
             this.projectDetails = new ProjectDetails()
             {
@@ -84,8 +85,8 @@ namespace DaAn.ConceptLog.MVP.Presenters
                 PreviuosCommitId = null
             };
 
-            this.projectDetailsService.Save(path, this.projectDetails);
-            this.branchService.Save(path, new Branch()
+            this.projectDetailsService.Save(this.projectDetails);
+            this.branchService.Save(new Branch()
             {
                 CommitId = null,
                 Name = this.projectDetails.BranchName
@@ -95,9 +96,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void Commit()
         {
-            var commitPresenter = MVPSetting.PresenterFactory.GetCommitPresenter(this.path,
-                this.userId,
-                this.projectDetails);
+            var commitPresenter = MVPSetting.PresenterFactory.GetCommitPresenter(this.userId, this.projectDetails);
 
             commitPresenter.Show();
 
@@ -106,7 +105,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddNewConcept()
         {
-            var conceptPresenter = MVPSetting.PresenterFactory.GetCreateConceptPresenter(this.path, this.projectDetails.PreviuosCommitId);
+            var conceptPresenter = MVPSetting.PresenterFactory.GetCreateConceptPresenter(this.projectDetails.PreviuosCommitId);
             conceptPresenter.Show();
 
             this.RefreshData();

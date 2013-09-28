@@ -13,7 +13,8 @@ namespace DaAn.ConceptLog.Model.Test.Repositories
         {
             var repository = ObjectFactory.Instance.GetCommitRepository();
 
-            repository.Save("Test", new Commit()
+            ProjectSettings.Path = "Test";
+            repository.Save(new Commit()
             {
                 Id = Guid.NewGuid().ToString(),
                 Description = "Test",
@@ -26,8 +27,8 @@ namespace DaAn.ConceptLog.Model.Test.Repositories
         public void TestFindAll()
         {
             var repository = ObjectFactory.Instance.GetCommitRepository();
-
-            var result = repository.FindAll("Test");
+            ProjectSettings.Path = "Test";
+            var result = repository.FindAll();
         }
     }
 }

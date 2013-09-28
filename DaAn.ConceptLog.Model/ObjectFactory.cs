@@ -86,18 +86,23 @@ namespace DaAn.ConceptLog.Model
 
         //-------------------------------------------------
 
-        public IConceptService GetConceptService()
+        public ConceptService GetConceptService()
         {
-            return new ConceptServiceDeltaDecorator(new ConceptService(this.GetProjectDetailsRepository(),
+            return new ConceptService(this.GetProjectDetailsRepository(),
                 this.GetBranchRepository(),
                 this.GetCommitRepository(),
-                this.GetBlobRepository()),
+                this.GetBlobRepository());
+        }
+
+        public ConceptServiceWithDeltas GetConceptServiceWithDeltas()
+        {
+            return new ConceptServiceWithDeltas(this.GetConceptService(),
                 this.GetDeltaRepository());
         }
 
-        public ConceptServiceLocalDeltaDecorator GetConceptServiceWithLocalDeltas()
+        public ConceptServiceWithGlobalAndLocalDeltas GetConceptServiceWithGlobalAndLocalDeltas()
         {
-            return new ConceptServiceLocalDeltaDecorator(this.GetConceptService(), this.GetDeltaRepository());
+            return new ConceptServiceWithGlobalAndLocalDeltas(this.GetConceptService(), this.GetDeltaRepository());
         }
 
 

@@ -46,7 +46,7 @@ namespace DaAn.ConceptLog
 
         private void newProjectMI_Click(object sender, EventArgs e)
         {
-            this.MainPresenter.NewProject("Test", "Project", "Project");
+            this.MainPresenter.NewProject("Project", "Project");
         }
 
 

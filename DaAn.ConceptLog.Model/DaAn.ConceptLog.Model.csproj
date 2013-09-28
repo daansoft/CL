@@ -48,9 +48,9 @@
     <Compile Include="Entities\Concept.cs" />
     <Compile Include="Entities\BlobDetails.cs" />
     <Compile Include="Entities\Delta.cs" />
-    <Compile Include="Entities\Project.cs" />
     <Compile Include="Entities\ProjectDetails.cs" />
     <Compile Include="ObjectFactory.cs" />
+    <Compile Include="ProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Repositories\ConceptRepository.cs" />
@@ -64,9 +64,9 @@
     <Compile Include="Services\CommitService.cs" />
     <Compile Include="Services\ConceptService.cs" />
     <Compile Include="Services\BranchService.cs" />
-    <Compile Include="Services\ConceptServiceLocalDeltaDecorator.cs" />
+    <Compile Include="Services\ConceptServiceWithGlobalAndLocalDeltas.cs" />
     <Compile Include="Services\DeltaService.cs" />
-    <Compile Include="Services\ConceptServiceDeltaDecorator.cs" />
+    <Compile Include="Services\ConceptServiceWithDeltas.cs" />
     <Compile Include="Services\IConceptService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Utils\ProjectTools.cs" />
