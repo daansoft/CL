@@ -24,5 +24,20 @@ namespace DaAn.ConceptLog.Model.Entities
             this.RelatedConceptIds = new List<string>();
             this.UserIds = new List<Guid>();
         }
+
+        public Concept Clone()
+        {
+            var concept = new Concept();
+
+            concept.Id = this.Id;
+            concept.Description = this.Description;
+            concept.CreateDate = this.CreateDate;
+            concept.Action = this.Action;
+            concept.CreatorId = this.CreatorId;
+            concept.RelatedConceptIds = this.RelatedConceptIds.ToList();
+            concept.UserIds = this.UserIds.ToList();
+
+            return concept;
+        }
     }
 }

@@ -32,12 +32,6 @@ namespace DaAn.ConceptLog.Model.Repositories
                 switch (delta.Action)
                 {
                     case DeltaAction.AddConcept:
-                        /*var newConcept = (Concept)delta.Value;
-                        if (newConcept != null)
-                        {
-                            result.Add(newConcept);
-                            newConcept.Action = CommitAction.Create;
-                        }*/
                         break;
                     case DeltaAction.AddRelatedConcept:
                         if (concept != null)
@@ -46,7 +40,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                             if (!concept.RelatedConceptIds.Contains(val))
                             {
                                 concept.RelatedConceptIds.Add(val);
-                                if (concept.Action != CommitAction.NoChange)
+                                if (concept.Action == CommitAction.NoChange)
                                 {
                                     concept.Action = CommitAction.Update;
                                 }
@@ -60,7 +54,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                             if (!concept.UserIds.Contains(val))
                             {
                                 concept.UserIds.Add(val);
-                                if (concept.Action != CommitAction.NoChange)
+                                if (concept.Action == CommitAction.NoChange)
                                 {
                                     concept.Action = CommitAction.Update;
                                 }
@@ -71,7 +65,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.Description = (string)delta.Value;
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }
@@ -89,7 +83,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Remove((string)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }
@@ -99,7 +93,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.UserIds.Remove((Guid)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }
@@ -129,14 +123,18 @@ namespace DaAn.ConceptLog.Model.Repositories
                 switch (delta.Action)
                 {
                     case DeltaAction.AddConcept:
-                        var newConcept = (Concept)delta.Value;
-                        if (newConcept != null)
+                        var conceptId = (string)delta.Value;
+                        if (!result.Any(r => r.Id == conceptId))
                         {
-                            if (!result.Any(r => r.Id == newConcept.Id))
+                            result.Add(new Concept()
                             {
-                                result.Add(newConcept);
-                                newConcept.Action = CommitAction.Create;
-                            }
+                                Id = conceptId,
+                                Action = CommitAction.Create
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception("AddConcept");
                         }
                         break;
                     case DeltaAction.AddRelatedConcept:
@@ -146,10 +144,14 @@ namespace DaAn.ConceptLog.Model.Repositories
                             if (!concept.RelatedConceptIds.Contains(val))
                             {
                                 concept.RelatedConceptIds.Add(val);
-                                if (concept.Action != CommitAction.NoChange)
+                                if (concept.Action == CommitAction.NoChange)
                                 {
                                     concept.Action = CommitAction.Update;
                                 }
+                            }
+                            else
+                            {
+                                throw new Exception("AddRelatedConcept");
                             }
                         }
                         break;
@@ -160,10 +162,14 @@ namespace DaAn.ConceptLog.Model.Repositories
                             if (!concept.UserIds.Contains(val))
                             {
                                 concept.UserIds.Add(val);
-                                if (concept.Action != CommitAction.NoChange)
+                                if (concept.Action == CommitAction.NoChange)
                                 {
                                     concept.Action = CommitAction.Update;
                                 }
+                            }
+                            else
+                            {
+                                throw new Exception("AddConceptUser");
                             }
                         }
                         break;
@@ -171,7 +177,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.Description = (string)delta.Value;
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }
@@ -187,7 +193,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.RelatedConceptIds.Remove((string)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }
@@ -197,7 +203,7 @@ namespace DaAn.ConceptLog.Model.Repositories
                         if (concept != null)
                         {
                             concept.UserIds.Remove((Guid)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            if (concept.Action == CommitAction.NoChange)
                             {
                                 concept.Action = CommitAction.Update;
                             }

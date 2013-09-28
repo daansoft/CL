@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeltaFactory.cs" />
     <Compile Include="Entities\Blob.cs" />
     <Compile Include="Entities\Branch.cs" />
     <Compile Include="Entities\Commit.cs" />

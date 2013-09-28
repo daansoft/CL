@@ -57,12 +57,8 @@ namespace DaAn.ConceptLog.MVP.Presenters
             this.concept.Description = this.conceptView.Description;
 
             this.deltaService.Create(this.conceptService.LocalDeltas);
-            this.deltaService.Create(new Delta()
-            {
-                Action = DeltaAction.AddConcept,
-                ObjectId = this.concept.Id,
-                Value = this.concept
-            });
+            this.deltaService.Create(DeltaFactory.Instance.AddConcept(this.concept.Id));
+            this.deltaService.Create(DeltaFactory.Instance.UpdateConceptDescription(this.concept.Id, this.conceptView.Description));
 
             this.conceptView.CloseView();
         }
@@ -75,6 +71,10 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddRelatedConcept()
         {
+
+            //if(this.deltaService.Exists(
+
+
             this.conceptService.LocalDeltas.Add(new Delta()
             {
                 Action = DeltaAction.AddRelatedConcept,

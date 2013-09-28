@@ -58,7 +58,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
                 {
                     Action = DeltaAction.AddConcept,
                     ObjectId = this.concept.Id,
-                    Value = this.concept
+                    Value = this.concept.Id
                 });
             }
         }
