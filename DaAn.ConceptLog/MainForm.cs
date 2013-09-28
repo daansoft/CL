@@ -64,5 +64,16 @@ namespace DaAn.ConceptLog
         {
             this.MainPresenter.AddNewConcept();
         }
+
+        private void detailsMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.Details();
+        }
+
+
+        public Concept GetSelected()
+        {
+            return (Concept)conceptsBS.Current;
+        }
     }
 }

@@ -47,15 +47,13 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.showLogMI = new System.Windows.Forms.ToolStripMenuItem();
             this.showChangesMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.creatorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conceptsBS = new System.Windows.Forms.BindingSource(this.components);
             this.conceptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewConceptMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.conceptsBS = new System.Windows.Forms.BindingSource(this.components);
+            this.detailsMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTools.SuspendLayout();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -196,22 +194,40 @@
             this.showChangesMI.Size = new System.Drawing.Size(150, 22);
             this.showChangesMI.Text = "Show changes";
             // 
+            // conceptToolStripMenuItem
+            // 
+            this.conceptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addNewConceptMI,
+            this.detailsMI});
+            this.conceptToolStripMenuItem.Name = "conceptToolStripMenuItem";
+            this.conceptToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.conceptToolStripMenuItem.Text = "Concept";
+            // 
+            // addNewConceptMI
+            // 
+            this.addNewConceptMI.Name = "addNewConceptMI";
+            this.addNewConceptMI.Size = new System.Drawing.Size(152, 22);
+            this.addNewConceptMI.Text = "Add new";
+            this.addNewConceptMI.Click += new System.EventHandler(this.addNewConceptMI_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.numberDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.creatorIdDataGridViewTextBoxColumn});
+            this.descriptionDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.conceptsBS;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 49);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(910, 505);
             this.dataGridView1.TabIndex = 2;
             // 
@@ -223,52 +239,24 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // numberDataGridViewTextBoxColumn
-            // 
-            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
-            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // creatorIdDataGridViewTextBoxColumn
-            // 
-            this.creatorIdDataGridViewTextBoxColumn.DataPropertyName = "CreatorId";
-            this.creatorIdDataGridViewTextBoxColumn.HeaderText = "CreatorId";
-            this.creatorIdDataGridViewTextBoxColumn.Name = "creatorIdDataGridViewTextBoxColumn";
-            this.creatorIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // conceptsBS
             // 
             this.conceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
             // 
-            // conceptToolStripMenuItem
+            // detailsMI
             // 
-            this.conceptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewConceptMI});
-            this.conceptToolStripMenuItem.Name = "conceptToolStripMenuItem";
-            this.conceptToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.conceptToolStripMenuItem.Text = "Concept";
+            this.detailsMI.Name = "detailsMI";
+            this.detailsMI.Size = new System.Drawing.Size(152, 22);
+            this.detailsMI.Text = "Details";
+            this.detailsMI.Click += new System.EventHandler(this.detailsMI_Click);
             // 
-            // addNewConceptMI
+            // descriptionDataGridViewTextBoxColumn
             // 
-            this.addNewConceptMI.Name = "addNewConceptMI";
-            this.addNewConceptMI.Size = new System.Drawing.Size(152, 22);
-            this.addNewConceptMI.Text = "Add new";
-            this.addNewConceptMI.Click += new System.EventHandler(this.addNewConceptMI_Click);
+            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -315,13 +303,12 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem newProjectMI;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn creatorIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource conceptsBS;
         private System.Windows.Forms.ToolStripMenuItem conceptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewConceptMI;
+        private System.Windows.Forms.ToolStripMenuItem detailsMI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
     }
 }
 

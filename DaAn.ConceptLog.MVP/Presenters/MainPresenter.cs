@@ -3,6 +3,7 @@ using DaAn.ConceptLog.Model.Entities;
 using DaAn.ConceptLog.Model.Services;
 using DaAn.ConceptLog.Model.Utils;
 using DaAn.ConceptLog.MVP.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,8 +97,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
         {
             var commitPresenter = MVPSetting.PresenterFactory.GetCommitPresenter(this.path,
                 this.userId,
-                this.projectDetails,
-                this.deltaService);
+                this.projectDetails);
 
             commitPresenter.Show();
 
@@ -106,10 +106,17 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddNewConcept()
         {
-            var conceptPresenter = MVPSetting.PresenterFactory.GetCreateConceptPresenter(this.conceptService, this.path, this.projectDetails.PreviuosCommitId, this.deltaService);
+            var conceptPresenter = MVPSetting.PresenterFactory.GetCreateConceptPresenter(this.path, this.projectDetails.PreviuosCommitId);
             conceptPresenter.Show();
 
             this.RefreshData();
+        }
+
+        public void Details()
+        {
+            var concept = this.mainView.GetSelected();
+
+            this.mainView.SendMessage(JsonConvert.SerializeObject(concept));
         }
     }
 }

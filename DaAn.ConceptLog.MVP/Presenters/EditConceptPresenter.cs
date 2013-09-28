@@ -81,10 +81,6 @@ namespace DaAn.ConceptLog.MVP.Presenters
                 relatedConcepts = this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(this.path, this.commitId, this.concept.Id);
             }
 
-            //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.deltas.ToList()); // .Where(r => r.ObjectId == this.concept.Id)
-
-            //relatedConcepts = this.conceptService.PrepareConcepts(relatedConcepts, this.localDeltas.ToList());
-
             this.conceptView.SetRelatedConcepts(relatedConcepts);
         }
 

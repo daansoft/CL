@@ -33,5 +33,15 @@ namespace DaAn.ConceptLog.Model.Services
         {
             this.deltaRepository.DeleteAll();
         }
+
+        public List<Concept> MergeConceptWithDeltas(List<Concept> concepts, List<Delta> deltas)
+        {
+            return this.deltaRepository.MergeConceptWithDeltas(concepts, deltas);
+        }
+
+        public Concept MergeConceptWithDeltas(Concept concept, List<Delta> deltas)
+        {
+            return this.deltaRepository.MergeConceptWithDeltas(concept, deltas);
+        }
     }
 }

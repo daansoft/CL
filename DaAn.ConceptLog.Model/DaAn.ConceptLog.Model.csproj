@@ -64,8 +64,9 @@
     <Compile Include="Services\CommitService.cs" />
     <Compile Include="Services\ConceptService.cs" />
     <Compile Include="Services\BranchService.cs" />
+    <Compile Include="Services\ConceptServiceLocalDeltaDecorator.cs" />
     <Compile Include="Services\DeltaService.cs" />
-    <Compile Include="Services\ConceptServiceDecorator.cs" />
+    <Compile Include="Services\ConceptServiceDeltaDecorator.cs" />
     <Compile Include="Services\IConceptService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Utils\ProjectTools.cs" />

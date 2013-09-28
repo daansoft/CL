@@ -1,4 +1,5 @@
-﻿using DaAn.ConceptLog.Model.Entities;
+﻿using DaAn.ConceptLog.Model;
+using DaAn.ConceptLog.Model.Entities;
 using DaAn.ConceptLog.Model.Services;
 using DaAn.ConceptLog.Model.Utils;
 using DaAn.ConceptLog.MVP.Views;
@@ -12,27 +13,25 @@ namespace DaAn.ConceptLog.MVP.Presenters
 {
     public class CreateConceptPresenter
     {
-        private IConceptService conceptService;
+        private ConceptServiceLocalDeltaDecorator conceptService;
         private DeltaService deltaService;
 
         private IConceptView conceptView;
 
         private string path;
         private string commitId;
-        private List<Delta> localDeltas;
 
         private Concept concept;
 
-        public CreateConceptPresenter(IConceptView conceptView, IConceptService conceptService, string path, string commitId, DeltaService deltaService)
+        public CreateConceptPresenter(IConceptView conceptView, string path, string commitId)
         {
             conceptView.ConceptPresenter = this;
             this.conceptView = conceptView;
 
-            this.conceptService = conceptService;
+            this.conceptService = ObjectFactory.Instance.GetConceptServiceWithLocalDeltas();
+            this.deltaService = ObjectFactory.Instance.GetDeltaService();
 
-            this.localDeltas = new List<Delta>();
             this.path = path;
-            this.deltaService = deltaService;
             this.commitId = commitId;
 
             this.concept = new Concept()
@@ -59,7 +58,7 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             this.concept.Description = this.conceptView.Description;
 
-            this.deltaService.Create(this.localDeltas);
+            this.deltaService.Create(this.conceptService.LocalDeltas);
             this.deltaService.Create(new Delta()
             {
                 Action = DeltaAction.AddConcept,
@@ -78,14 +77,14 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
         public void AddRelatedConcept()
         {
-            this.localDeltas.Add(new Delta()
+            this.conceptService.LocalDeltas.Add(new Delta()
             {
                 Action = DeltaAction.AddRelatedConcept,
                 ObjectId = this.concept.Id,
                 Value = "0a09829d-edbc-4d6c-b4cb-55662769536b"
             });
 
-            this.localDeltas.Add(new Delta()
+            this.conceptService.LocalDeltas.Add(new Delta()
             {
                 Action = DeltaAction.AddRelatedConcept,
                 ObjectId = "0a09829d-edbc-4d6c-b4cb-55662769536b",

@@ -18,10 +18,8 @@ namespace DaAn.ConceptLog.Model.Repositories
             DeltaRepository.Deltas = new List<Delta>();
         }
 
-        public Concept MergeConceptWithDelta(Concept concept)
+        public Concept MergeConceptWithDeltas(Concept concept, List<Delta> deltas)
         {
-            var deltas = this.FindAll();
-
             if (deltas == null)
             {
                 return concept;
@@ -44,20 +42,28 @@ namespace DaAn.ConceptLog.Model.Repositories
                     case DeltaAction.AddRelatedConcept:
                         if (concept != null)
                         {
-                            concept.RelatedConceptIds.Add((string)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            var val = (string)delta.Value;
+                            if (!concept.RelatedConceptIds.Contains(val))
                             {
-                                concept.Action = CommitAction.Update;
+                                concept.RelatedConceptIds.Add(val);
+                                if (concept.Action != CommitAction.NoChange)
+                                {
+                                    concept.Action = CommitAction.Update;
+                                }
                             }
                         }
                         break;
                     case DeltaAction.AddConceptUser:
                         if (concept != null)
                         {
-                            concept.UserIds.Add((Guid)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            var val = (Guid)delta.Value;
+                            if (!concept.UserIds.Contains(val))
                             {
-                                concept.Action = CommitAction.Update;
+                                concept.UserIds.Add(val);
+                                if (concept.Action != CommitAction.NoChange)
+                                {
+                                    concept.Action = CommitAction.Update;
+                                }
                             }
                         }
                         break;
@@ -107,10 +113,8 @@ namespace DaAn.ConceptLog.Model.Repositories
             return concept;
         }
 
-        public List<Concept> MergeConceptWithDeltas(List<Concept> concepts)
+        public List<Concept> MergeConceptWithDeltas(List<Concept> concepts, List<Delta> deltas)
         {
-            var deltas = this.FindAll();
-
             var result = concepts.ToList();
 
             if (deltas == null)
@@ -128,27 +132,38 @@ namespace DaAn.ConceptLog.Model.Repositories
                         var newConcept = (Concept)delta.Value;
                         if (newConcept != null)
                         {
-                            result.Add(newConcept);
-                            newConcept.Action = CommitAction.Create;
+                            if (!result.Any(r => r.Id == newConcept.Id))
+                            {
+                                result.Add(newConcept);
+                                newConcept.Action = CommitAction.Create;
+                            }
                         }
                         break;
                     case DeltaAction.AddRelatedConcept:
                         if (concept != null)
                         {
-                            concept.RelatedConceptIds.Add((string)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            var val = (string)delta.Value;
+                            if (!concept.RelatedConceptIds.Contains(val))
                             {
-                                concept.Action = CommitAction.Update;
+                                concept.RelatedConceptIds.Add(val);
+                                if (concept.Action != CommitAction.NoChange)
+                                {
+                                    concept.Action = CommitAction.Update;
+                                }
                             }
                         }
                         break;
                     case DeltaAction.AddConceptUser:
                         if (concept != null)
                         {
-                            concept.UserIds.Add((Guid)delta.Value);
-                            if (concept.Action != CommitAction.NoChange)
+                            var val = (Guid)delta.Value;
+                            if (!concept.UserIds.Contains(val))
                             {
-                                concept.Action = CommitAction.Update;
+                                concept.UserIds.Add(val);
+                                if (concept.Action != CommitAction.NoChange)
+                                {
+                                    concept.Action = CommitAction.Update;
+                                }
                             }
                         }
                         break;
@@ -216,16 +231,16 @@ namespace DaAn.ConceptLog.Model.Repositories
             DeltaRepository.Deltas.AddRange(deltas);
         }
 
-        public List<string> FindRelatedConceptsIdsByConceptId(string conceptId)
+        public List<string> FindRelatedConceptsIdsByConceptId(string conceptId, List<Delta> deltas)
         {
-            var relatedConcept = DeltaRepository.Deltas.Where(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddRelatedConcept);
+            var relatedConcept = deltas.Where(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddRelatedConcept);
 
             return relatedConcept.Select(r => (string)r.Value).ToList();
         }
 
-        public Concept ReadConceptByConceptId(string conceptId)
+        public Concept ReadConceptByConceptId(string conceptId, List<Delta> deltas)
         {
-            var delta = DeltaRepository.Deltas.SingleOrDefault(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddConcept);
+            var delta = deltas.SingleOrDefault(r => r.ObjectId == conceptId && r.Action == DeltaAction.AddConcept);
 
             if (delta == null)
             {
