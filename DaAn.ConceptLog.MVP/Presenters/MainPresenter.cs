@@ -117,5 +117,15 @@ namespace DaAn.ConceptLog.MVP.Presenters
 
             this.mainView.SendMessage(JsonConvert.SerializeObject(concept));
         }
+
+        public void EditConcept()
+        {
+            var concept = this.mainView.GetSelected();
+
+            var conceptPresenter = MVPSetting.PresenterFactory.GetEditConceptPresenter(this.projectDetails.PreviuosCommitId, concept.Id);
+            conceptPresenter.Show();
+
+            this.RefreshData();
+        }
     }
 }

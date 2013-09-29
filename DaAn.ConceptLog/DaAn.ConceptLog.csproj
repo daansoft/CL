@@ -56,6 +56,12 @@
     <Compile Include="ConceptForm.Designer.cs">
       <DependentUpon>ConceptForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConceptListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConceptListForm.Designer.cs">
+      <DependentUpon>ConceptListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConceptForm.resx">
       <DependentUpon>ConceptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptListForm.resx">
+      <DependentUpon>ConceptListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

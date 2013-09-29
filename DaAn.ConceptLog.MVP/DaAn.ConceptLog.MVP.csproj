@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResult.cs" />
     <Compile Include="IViewFactory.cs" />
     <Compile Include="PresenterFactory.cs" />
     <Compile Include="MVPSetting.cs" />
     <Compile Include="Presenters\CommitPresenter.cs" />
+    <Compile Include="Presenters\BaseConceptPresenter.cs" />
     <Compile Include="Presenters\CreateConceptPresenter.cs" />
     <Compile Include="Presenters\EditConceptPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />

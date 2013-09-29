@@ -12,5 +12,6 @@ namespace DaAn.ConceptLog.MVP
         IMainView GetMainView();
         ICommitView GetCommitView();
         IConceptView GetConceptView();
+        IConceptListView GetConceptListView();
     }
 }

@@ -75,5 +75,10 @@ namespace DaAn.ConceptLog
         {
             return (Concept)conceptsBS.Current;
         }
+
+        private void editConceptMI_Click(object sender, EventArgs e)
+        {
+            this.MainPresenter.EditConcept();
+        }
     }
 }

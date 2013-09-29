@@ -10,7 +10,7 @@ namespace DaAn.ConceptLog.MVP.Views
 {
     public interface IConceptView
     {
-        CreateConceptPresenter ConceptPresenter { get; set; }
+        BaseConceptPresenter ConceptPresenter { get; set; }
 
         void ShowView();
 

@@ -14,9 +14,6 @@ namespace DaAn.ConceptLog.MVP.Views
 
         void SetConcepts(List<Concept> concepts);
         void ShowView();
-
-
-
         void SendMessage(string message);
 
         Concept GetSelected();

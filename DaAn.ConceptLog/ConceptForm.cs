@@ -20,7 +20,7 @@ namespace DaAn.ConceptLog
             InitializeComponent();
         }
 
-        public CreateConceptPresenter ConceptPresenter { get; set; }
+        public BaseConceptPresenter ConceptPresenter { get; set; }
 
         private void saveBT_Click(object sender, EventArgs e)
         {

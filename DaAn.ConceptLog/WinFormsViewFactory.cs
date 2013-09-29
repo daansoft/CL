@@ -25,5 +25,11 @@ namespace DaAn.ConceptLog
         {
             return new ConceptForm();
         }
+
+
+        public IConceptListView GetConceptListView()
+        {
+            return new ConceptListForm();
+        }
     }
 }

@@ -20,6 +20,11 @@ namespace DaAn.ConceptLog.Model.Repositories
 
         public Concept MergeConceptWithDeltas(Concept concept, List<Delta> deltas)
         {
+            if (concept == null)
+            {
+                return null;
+            }
+
             if (deltas == null)
             {
                 return concept;
@@ -253,7 +258,10 @@ namespace DaAn.ConceptLog.Model.Repositories
                 return null;
             }
 
-            return (Concept)delta.Value;
+            return new Concept()
+            {
+                Id = (string)delta.Value
+            };
         }
     }
 }

@@ -28,5 +28,15 @@ namespace DaAn.ConceptLog.MVP
         {
             return new CreateConceptPresenter(this.ViewFactory.GetConceptView(), commitId);
         }
+
+        public EditConceptPresenter GetEditConceptPresenter(string commitId, string conceptId)
+        {
+            return new EditConceptPresenter(this.ViewFactory.GetConceptView(), commitId, conceptId);
+        }
+
+        public ConceptListPresenter GetConceptListPresenter(string commitId)
+        {
+            return new ConceptListPresenter(this.ViewFactory.GetConceptListView(), commitId);
+        }
     }
 }

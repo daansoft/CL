@@ -38,7 +38,7 @@ namespace DaAn.ConceptLog.Model.Services
 
         public List<Concept> FindRelatedConceptsByCommitIdAndConceptId(string commitId, string conceptId)
         {
-            var concepts = this.deltaRepository.MergeConceptWithDeltas(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(commitId, conceptId), this.GetDeltas());
+            var concepts = this.deltaRepository.MergeConceptWithDeltas(this.conceptService.FindRelatedConceptsByCommitIdAndConceptId(commitId, conceptId), this.GetDeltas().Where(r => r.ObjectId == conceptId && (r.Action == DeltaAction.AddRelatedConcept || r.Action == DeltaAction.RemoveRelatedConcept)).ToList());
 
             var relatedConceptIds = this.deltaRepository.FindRelatedConceptsIdsByConceptId(conceptId, this.GetDeltas());
 

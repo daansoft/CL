@@ -49,11 +49,12 @@
             this.showChangesMI = new System.Windows.Forms.ToolStripMenuItem();
             this.conceptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewConceptMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.conceptsBS = new System.Windows.Forms.BindingSource(this.components);
-            this.detailsMI = new System.Windows.Forms.ToolStripMenuItem();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conceptsBS = new System.Windows.Forms.BindingSource(this.components);
+            this.editConceptMI = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTools.SuspendLayout();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -198,7 +199,8 @@
             // 
             this.conceptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewConceptMI,
-            this.detailsMI});
+            this.detailsMI,
+            this.editConceptMI});
             this.conceptToolStripMenuItem.Name = "conceptToolStripMenuItem";
             this.conceptToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.conceptToolStripMenuItem.Text = "Concept";
@@ -209,6 +211,13 @@
             this.addNewConceptMI.Size = new System.Drawing.Size(152, 22);
             this.addNewConceptMI.Text = "Add new";
             this.addNewConceptMI.Click += new System.EventHandler(this.addNewConceptMI_Click);
+            // 
+            // detailsMI
+            // 
+            this.detailsMI.Name = "detailsMI";
+            this.detailsMI.Size = new System.Drawing.Size(152, 22);
+            this.detailsMI.Text = "Details";
+            this.detailsMI.Click += new System.EventHandler(this.detailsMI_Click);
             // 
             // dataGridView1
             // 
@@ -239,17 +248,6 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // conceptsBS
-            // 
-            this.conceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
-            // 
-            // detailsMI
-            // 
-            this.detailsMI.Name = "detailsMI";
-            this.detailsMI.Size = new System.Drawing.Size(152, 22);
-            this.detailsMI.Text = "Details";
-            this.detailsMI.Click += new System.EventHandler(this.detailsMI_Click);
-            // 
             // descriptionDataGridViewTextBoxColumn
             // 
             this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -257,6 +255,17 @@
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
             this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // conceptsBS
+            // 
+            this.conceptsBS.DataSource = typeof(DaAn.ConceptLog.Model.Entities.Concept);
+            // 
+            // editConceptMI
+            // 
+            this.editConceptMI.Name = "editConceptMI";
+            this.editConceptMI.Size = new System.Drawing.Size(152, 22);
+            this.editConceptMI.Text = "Edit";
+            this.editConceptMI.Click += new System.EventHandler(this.editConceptMI_Click);
             // 
             // MainForm
             // 
@@ -309,6 +318,7 @@
         private System.Windows.Forms.ToolStripMenuItem addNewConceptMI;
         private System.Windows.Forms.ToolStripMenuItem detailsMI;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripMenuItem editConceptMI;
     }
 }
 
